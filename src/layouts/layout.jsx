@@ -16,28 +16,28 @@ const Layout = ({ children, SEOtitle, SEOkeywords, SEOdescription }) => {
     {
       logo: file(relativePath: { eq: "logo.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 147) {
+          fluid(maxWidth: 147, quality: 100) {
             ...GatsbyImageSharpFluid_noBase64
           }
         }
       }
       metdank_1: file(relativePath: { eq: "metdank_1.png" }) {
         childImageSharp {
-          fluid(maxWidth: 147) {
+          fluid(maxWidth: 147, quality: 100) {
             ...GatsbyImageSharpFluid_noBase64
           }
         }
       }
       metdank_2: file(relativePath: { eq: "metdank_2.png" }) {
         childImageSharp {
-          fluid(maxWidth: 147) {
+          fluid(maxWidth: 147, quality: 100) {
             ...GatsbyImageSharpFluid_noBase64
           }
         }
       }
       metdank_3: file(relativePath: { eq: "metdank_3.jpg" }) {
         childImageSharp {
-          fluid(maxWidth: 147) {
+          fluid(maxWidth: 147, quality: 100) {
             ...GatsbyImageSharpFluid_noBase64
           }
         }

@@ -10,7 +10,6 @@ import 'moment/locale/nl'
 import { mediaFromRichText } from '../utils/media-from-rich-text'
 
 const Event = ({ data }) => {
-  console.log(data.dateStart)
   return (
     <div className='border-b mb-6'>
       {data.featuredImage && <Img fluid={data.featuredImage.fluid} />}

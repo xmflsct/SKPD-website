@@ -13,7 +13,9 @@ const Archief = ({ data }) => {
       SEOdescription='SKPD Archief'
     >
       {data.allContentfulEvent.nodes.map(node => (
-        <Event data={node} />
+        <div key={node.name}>
+          <Event data={node} />
+        </div>
       ))}
     </Layout>
   )

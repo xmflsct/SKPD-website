@@ -13,7 +13,9 @@ const TerraInChina = ({ data }) => {
       SEOdescription='Terra in China'
     >
       {data.allContentfulEvent.nodes.map(node => (
-        <Event data={node} />
+        <div key={node.name}>
+          <Event data={node} />
+        </div>
       ))}
     </Layout>
   )

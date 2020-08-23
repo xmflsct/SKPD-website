@@ -42,6 +42,19 @@ export const mediaFromRichText = {
           icon={faExternalLinkAlt}
         />
       </a>
+    ),
+    [INLINES.ASSET_HYPERLINK]: node => (
+      <a
+        href={node.data.target.fields.file['nl-NL'].url}
+        target='_blank'
+        rel='noopener noreferrer'
+      >
+        {node.content[0].value}{' '}
+        <FontAwesomeIcon
+          className='inline-block align-baseline h-3'
+          icon={faFileAlt}
+        />
+      </a>
     )
   }
 }
