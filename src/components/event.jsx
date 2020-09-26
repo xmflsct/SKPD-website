@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React from 'react'
+import { graphql } from 'gatsby'
 import Img from 'gatsby-image'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -39,7 +40,7 @@ export const query = graphql`
     dateEnd
     terraInChina
     featuredImage {
-      fluid(maxWidth: 620, quality: 100) {
+      fluid(maxWidth: 782, quality: 100) {
         ...GatsbyContentfulFluid
       }
     }

@@ -53,8 +53,8 @@ const Layout = ({ children, SEOtitle, SEOkeywords, SEOdescription }) => {
         description={SEOdescription}
       />
       <Header />
-      <div className='flex flex-row flex-wrap md:flex md:flex-row'>
-        <main className={'w-full md:order-2 md:w-4/6 md:px-4'}>{children}</main>
+      <div className='flex flex-row flex-wrap justify-center md:flex md:flex-row'>
+        <main className={'w-full md:order-2 md:w-5/6 md:px-4'}>{children}</main>
 
         <div
           id='left-sidebar'
@@ -67,19 +67,6 @@ const Layout = ({ children, SEOtitle, SEOkeywords, SEOdescription }) => {
             internationale hedendaagse keramiek.
           </p>
           <img src={anbiLogo} alt='anbi logo' />
-        </div>
-
-        <div
-          id='right-sidebar'
-          className='w-1/2 pl-2 md:order-3 md:w-1/6 md:px-2'
-        >
-          <p className='text-xs italic pb-4'>
-            Deze uitgave werd mede mogelijk gemaakt door: Gemeente Delft, P.M.
-            de Klerk Keramiek Fonds, Stichting van Achterbergh - Domdof.
-          </p>
-          <Img fluid={data.metdank_1.childImageSharp.fluid} className='mb-5' />
-          <Img fluid={data.metdank_2.childImageSharp.fluid} className='mb-5' />
-          <Img fluid={data.metdank_3.childImageSharp.fluid} />
         </div>
       </div>
       <Footer />
