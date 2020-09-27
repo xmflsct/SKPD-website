@@ -38,7 +38,6 @@ export const query = graphql`
     name
     dateStart
     dateEnd
-    terraInChina
     featuredImage {
       fluid(maxWidth: 782, quality: 100) {
         ...GatsbyContentfulFluid

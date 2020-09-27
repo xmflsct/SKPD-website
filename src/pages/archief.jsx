@@ -27,7 +27,7 @@ Archief.propTypes = {
 
 export const query = graphql`
   query archief {
-    allContentfulEvent(sort: { fields: dateEnd, order: DESC }) {
+    allContentfulEvent(skip: 1, sort: { fields: dateEnd, order: DESC }) {
       nodes {
         ...EventDefault
       }

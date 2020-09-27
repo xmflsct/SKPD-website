@@ -5,7 +5,7 @@ import { graphql } from 'gatsby'
 import Layout from '../layouts/layout'
 import Event from '../components/event'
 
-const TerraInChina = ({ data }) => {
+const EventType = ({ data }) => {
   return (
     <Layout
       SEOtitle='Terra in China'
@@ -21,14 +21,14 @@ const TerraInChina = ({ data }) => {
   )
 }
 
-TerraInChina.propTypes = {
+EventType.propTypes = {
   data: PropTypes.object.isRequired
 }
 
 export const query = graphql`
-  query terraInChina {
+  query eventType($contentful_id: String) {
     allContentfulEvent(
-      filter: { terraInChina: { eq: true } }
+      filter: { type: { contentful_id: { eq: $contentful_id } } }
       sort: { fields: dateEnd, order: DESC }
     ) {
       nodes {
@@ -38,4 +38,4 @@ export const query = graphql`
   }
 `
 
-export default TerraInChina
+export default EventType
