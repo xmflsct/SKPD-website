@@ -15,7 +15,7 @@ const Header = () => {
     }
   `)
   return (
-    <header className='flex flex-col md:flex-row md:justify-around sticky top-0 z-50 bg-white py-4 text-sm'>
+    <header className='flex flex-col md:flex-row md:justify-around md:sticky md:top-0 md:z-50 md:bg-white py-4 text-sm'>
       <Link to='/'>home</Link>
       {data.allContentfulEventType.nodes.map(node => (
         <Link

@@ -46,7 +46,7 @@ const Layout = ({ children, SEOtitle, SEOkeywords, SEOdescription }) => {
   `)
 
   return (
-    <div className={'w-full max-w-screen-lg mx-auto px-6'}>
+    <div className={'w-full min-h-screen max-w-screen-lg mx-auto px-6 flex flex-col'}>
       <Seo
         title={SEOtitle}
         keywords={SEOkeywords}

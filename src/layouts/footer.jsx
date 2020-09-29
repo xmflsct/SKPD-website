@@ -4,7 +4,7 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons'
 
 const Footer = () => {
   return (
-    <footer className='text-center text-sm text-primary text-opacity-60 my-6'>
+    <footer className='mt-auto text-center md:text-right text-sm text-primary text-opacity-60 py-6'>
       SKPD © 1995-2020 | Made with{' '}
       <FontAwesomeIcon
         className='inline-block align-baseline h-3'
