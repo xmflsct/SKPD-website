@@ -12,7 +12,7 @@ export const mediaFromRichText = {
           <p>
             <img
               src={node.data.target.fields.file['nl-NL'].url}
-              alt={node.data.target.fields.title['nl-NL']}
+              alt={node.data.target.fields?.title['nl-NL']}
             />
           </p>
         )
@@ -24,7 +24,7 @@ export const mediaFromRichText = {
               target='_blank'
               rel='noopener noreferrer'
             >
-              {node.data.target.fields.title['nl-NL']}{' '}
+              {node.data.target.fields?.title['nl-NL']}{' '}
               <FontAwesomeIcon
                 className='inline-block align-baseline h-3'
                 icon={faFileAlt}
