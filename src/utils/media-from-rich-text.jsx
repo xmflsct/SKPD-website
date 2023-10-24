@@ -20,7 +20,7 @@ export const mediaFromRichText = {
         return (
           <p>
             <a
-              href={`https:${node.data.target.fields.file['nl-NL'].url}`}
+              href={`https:${node.data.target.fields?.file['nl-NL'].url}`}
               target='_blank'
               rel='noopener noreferrer'
             >
