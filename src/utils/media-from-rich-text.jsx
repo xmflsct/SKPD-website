@@ -7,7 +7,7 @@ import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 export const mediaFromRichText = {
   renderNode: {
     [BLOCKS.EMBEDDED_ASSET]: node => {
-      if (node.data.target.fields.file['nl-NL'].contentType.includes('image')) {
+      if (node.data.target.fields?.file['nl-NL'].contentType.includes('image')) {
         return (
           <p>
             <img
