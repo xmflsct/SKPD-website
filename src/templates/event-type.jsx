@@ -12,7 +12,7 @@ const EventType = ({ data }) => {
       SEOkeywords={['Terra', 'China', 'Terra in China']}
       SEOdescription='Terra in China'
     >
-      {data.allContentfulEvent.nodes.map(node => (
+      {data.allContentfulArticle.nodes.map(node => (
         <div key={node.name}>
           <Event data={node} />
         </div>
@@ -27,7 +27,7 @@ EventType.propTypes = {
 
 export const query = graphql`
   query eventType($contentful_id: String) {
-    allContentfulEvent(
+    allContentfulArticle(
       filter: { type: { contentful_id: { eq: $contentful_id } } }
       sort: { fields: dateEnd, order: DESC }
     ) {

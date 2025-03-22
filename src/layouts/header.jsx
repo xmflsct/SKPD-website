@@ -6,7 +6,7 @@ import slugify from 'slugify'
 const Header = () => {
   const data = useStaticQuery(graphql`
     {
-      allContentfulEventType {
+      allContentfulMenu {
         nodes {
           contentful_id
           name
@@ -17,11 +17,8 @@ const Header = () => {
   return (
     <header className='flex flex-col md:flex-row md:justify-around md:sticky md:top-0 md:z-50 md:bg-white py-4 text-sm'>
       <Link to='/'>home</Link>
-      {data.allContentfulEventType.nodes.map(node => (
-        <Link
-          to={`/${slugify(node.name, { lower: true })}`}
-          key={node.contentful_id}
-        >
+      {data.allContentfulMenu.nodes.map(node => (
+        <Link to={`/${slugify(node.name, { lower: true })}`} key={node.contentful_id}>
           {node.name}
         </Link>
       ))}

@@ -5,7 +5,7 @@ exports.createPages = async ({ graphql, actions: { createPage } }) => {
   const templateEventType = path.resolve(`src/templates/event-type.jsx`)
   const eventTypes = await graphql(`
     {
-      eventTypes: allContentfulEventType {
+      eventTypes: allContentfulMenu {
         nodes {
           contentful_id
           name

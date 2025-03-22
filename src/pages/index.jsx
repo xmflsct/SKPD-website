@@ -12,7 +12,7 @@ const Index = ({ data }) => {
       SEOkeywords={['Terra', 'Delft', 'Terra Delft']}
       SEOdescription='SKPD Website'
     >
-      <Event data={data.allContentfulEvent.nodes[0]} />
+      <Event data={data.allContentfulArticle.nodes[0]} />
     </Layout>
   )
 }
@@ -23,7 +23,7 @@ Index.propTypes = {
 
 export const query = graphql`
   query index {
-    allContentfulEvent(limit: 1, sort: { fields: dateEnd, order: DESC }) {
+    allContentfulArticle(limit: 1, sort: { fields: dateEnd, order: DESC }) {
       nodes {
         ...EventDefault
       }
