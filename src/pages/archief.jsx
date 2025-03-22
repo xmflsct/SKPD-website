@@ -25,7 +25,7 @@ export const query = graphql`
   query archief {
     allContentfulMenu(skip: 1, sort: { fields: dateEnd, order: DESC }) {
       nodes {
-        ...EventDefault
+        ...ArticleDefault
       }
     }
   }

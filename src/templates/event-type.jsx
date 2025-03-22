@@ -32,7 +32,7 @@ export const query = graphql`
       sort: { fields: dateEnd, order: DESC }
     ) {
       nodes {
-        ...EventDefault
+        ...ArticleDefault
       }
     }
   }

@@ -34,7 +34,7 @@ Event.propTypes = {
 }
 
 export const query = graphql`
-  fragment EventDefault on ContentfulMenu {
+  fragment ArticleDefault on ContentfulMenu {
     name
     dateStart
     dateEnd
