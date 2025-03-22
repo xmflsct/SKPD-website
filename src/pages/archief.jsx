@@ -8,7 +8,7 @@ import Event from '../components/event'
 const Archief = ({ data }) => {
   return (
     <Layout SEOtitle='Archief' SEOkeywords={['SKPD', 'Archief']} SEOdescription='SKPD Archief'>
-      {data.allContentfulMenu.nodes.map(node => (
+      {data.allContentfulArticle.nodes.map(node => (
         <div key={node.name}>
           <Event data={node} />
         </div>
@@ -23,7 +23,7 @@ Archief.propTypes = {
 
 export const query = graphql`
   query archief {
-    allContentfulMenu(skip: 1, sort: { fields: dateEnd, order: DESC }) {
+    allContentfulArticle(skip: 1, sort: { fields: dateEnd, order: DESC }) {
       nodes {
         ...ArticleDefault
       }
