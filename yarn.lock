@@ -1192,20 +1192,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"astro@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "astro@workspace:."
-  dependencies:
-    "@contentful/rich-text-html-renderer": ^17.0.0
-    "@tailwindcss/typography": ^0.5.16
-    "@tailwindcss/vite": ^4.0.17
-    astro: ^5.5.5
-    contentful: ^11.5.11
-    slugify: ^1.6.6
-    tailwindcss: ^4.0.17
-  languageName: unknown
-  linkType: soft
-
 "asynckit@npm:^0.4.0":
   version: 0.4.0
   resolution: "asynckit@npm:0.4.0"
@@ -4117,6 +4103,20 @@ __metadata:
   checksum: aba6438f46d2bfcef94cf112c835ab395172c75f67453fe05c340c770d3c402363018ae1ab4172a1026a90c47eaccf3af7b6ff6fa749a680c2929bd7fa2b37a4
   languageName: node
   linkType: hard
+
+"skpd-website@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "skpd-website@workspace:."
+  dependencies:
+    "@contentful/rich-text-html-renderer": ^17.0.0
+    "@tailwindcss/typography": ^0.5.16
+    "@tailwindcss/vite": ^4.0.17
+    astro: ^5.5.5
+    contentful: ^11.5.11
+    slugify: ^1.6.6
+    tailwindcss: ^4.0.17
+  languageName: unknown
+  linkType: soft
 
 "slugify@npm:^1.6.6":
   version: 1.6.6
