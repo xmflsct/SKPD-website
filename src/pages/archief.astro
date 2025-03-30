@@ -1,0 +1,13 @@
+---
+import Layout from '../layouts/Layout.astro'
+import EventPreview from '../layouts/EventPreview.astro'
+
+import { getCollection } from 'astro:content'
+const events = await getCollection('events').then(data =>
+  data.filter(event => !event.data.data.type)
+)
+---
+
+<Layout title='Archief' keywords={['SKPD', 'Archief']}>
+  {events.map(event => <EventPreview event={event.data} />)}
+</Layout>

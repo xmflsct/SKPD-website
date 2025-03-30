@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Event from '../layouts/Event.astro'
+import { getCollection } from 'astro:content'
+
+const events = await getCollection('events')
+---
+
+<Layout title='Home' keywords={['Terra', 'Delft', 'Terra Delft']} description='SKPD Website'>
+  <Event event={events[0].data} />
+</Layout>

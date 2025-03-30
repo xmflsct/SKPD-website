@@ -1,0 +1,13 @@
+---
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer'
+import Layout from '../layouts/Layout.astro'
+import { contentfulClient, type ContentfulPage } from '../lib/contentful'
+import { richTextOptions } from '../lib/richTextOptions'
+
+const page = await contentfulClient.getEntry<ContentfulPage>('76F4GyF2OUCryBQFV3R02x')
+---
+
+<Layout title={page.fields.title}>
+  <h1>{page.fields.title}</h1>
+  <article set:html={documentToHtmlString(page.fields.content, richTextOptions)} />
+</Layout>

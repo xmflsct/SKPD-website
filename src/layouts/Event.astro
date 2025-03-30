@@ -1,0 +1,27 @@
+---
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer'
+import { Image } from 'astro:assets'
+import { richTextOptions } from '../lib/richTextOptions'
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  event: CollectionEntry<'events'>['data']
+}
+
+const {
+  event: { data }
+} = Astro.props
+---
+
+<div class='border-b mb-6'>
+  <!-- {featuredImage && <Image src={featuredImage.sys} />} -->
+  <h1>{data.name}</h1>
+  <div>
+    📅 {data.dateStart} - {data.dateEnd}
+  </div>
+  {
+    data.description && (
+      <article set:html={documentToHtmlString(data.description, richTextOptions)} />
+    )
+  }
+</div>

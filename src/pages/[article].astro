@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content'
+import { contentfulSlug } from '../lib/contentful'
+import Layout from '../layouts/Layout.astro'
+import Event from '../layouts/Event.astro'
+
+export async function getStaticPaths() {
+  const events = await getCollection('events')
+  return events.map(event => ({
+    params: { article: contentfulSlug(event.data.data.name) },
+    props: { data: event.data }
+  }))
+}
+const { data } = Astro.props
+---
+
+<Layout title='Home' keywords={['Terra', 'Delft', 'Terra Delft']} description='SKPD Website'>
+  <Event event={data} />
+</Layout>

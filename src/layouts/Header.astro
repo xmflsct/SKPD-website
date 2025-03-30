@@ -1,0 +1,13 @@
+---
+import { getCollection } from 'astro:content'
+const menus = await getCollection('eventTypes')
+---
+
+<header
+  class='flex flex-col md:flex-row md:justify-around md:sticky md:top-0 md:z-50 md:bg-white py-4 text-sm'
+>
+  <a href='/'>home</a>
+  {menus.map(menu => <a href={`/${menu.data.data.slug}`}>{menu.data.data.name}</a>)}
+  <a href='/archief'>archief</a>
+  <a href='/over-skpd'>over SKPD</a>
+</header>

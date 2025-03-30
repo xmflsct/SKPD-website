@@ -1,0 +1,18 @@
+---
+import type { Entry } from 'contentful'
+import { contentfulSlug, type ContentfulEvent } from '../lib/contentful'
+import type { CollectionEntry } from 'astro:content'
+
+interface Props {
+  event: CollectionEntry<'events'>
+}
+
+const { event } = Astro.props
+---
+
+<div class='border-b mb-4'>
+  <a href={`/${contentfulSlug(event.data.name)}`} class='text-2xl'>{event.data.name}</a>
+  <div class='my-2'>
+    📅 {event.data.dateStart} - {event.data.dateEnd}
+  </div>
+</div>
