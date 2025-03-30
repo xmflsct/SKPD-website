@@ -8,18 +8,18 @@ export const richTextOptions: Partial<Options> = {
         return ''
       }
       if (node.data.target.fields.file.contentType.startsWith('image')) {
-        return (`<p><img src=${node.data.target.fields.file.url} alt=${node.data.target.fields.title} /></p>`
+        return (`<p><img src="${node.data.target.fields.file.url}?w=782&q=80&fm=jpg&fl=progressive" alt="${node.data.target.fields.title}" /></p>`
         )
       } else {
-        return (`<p><a href=${node.data.target.fields.file.url} target='_blank' rel='noopener noreferrer'>${node.data.target.fields.title} 📄</a></p>`
+        return (`<p><a href="${node.data.target.fields.file.url}" target="_blank" rel="noopener noreferrer">${node.data.target.fields.title} 📄</a></p>`
         )
       }
     },
     [INLINES.HYPERLINK]: node => (
-      `<a href=${node.data.uri} target='_blank' rel='noopener noreferrer'>${node.content[0].value}</a>`
+      `<a href="${node.data.uri}" target="_blank" rel="noopener noreferrer">${node.content[0].value}</a>`
     ),
     [INLINES.ASSET_HYPERLINK]: node => (
-      `<a href=${node.data.target.fields.file.url} target='_blank' rel='noopener noreferrer'>${node.content[0].value}</a>`
+      `<a href="${node.data.target.fields.file.url}" target="_blank" rel="noopener noreferrer">${node.content[0].value}</a>`
     )
   }
 }

@@ -14,11 +14,26 @@ const {
 ---
 
 <div class='border-b mb-6'>
-  <!-- {featuredImage && <Image src={featuredImage.sys} />} -->
   <h1>{data.name}</h1>
+
   <div>
     📅 {data.dateStart} - {data.dateEnd}
   </div>
+
+  {
+    data.featuredImage && (
+      <Image
+        src={data.featuredImage.fields.file.url + `?w=782&q=80&fm=jpg&fl=progressive`}
+        alt={data.featuredImage.fields.title}
+        width={782}
+        height={
+          (782 / data.featuredImage.fields.file.details.image.width) *
+          data.featuredImage.fields.file.details.image.height
+        }
+      />
+    )
+  }
+
   {
     data.description && (
       <article set:html={documentToHtmlString(data.description, richTextOptions)} />
