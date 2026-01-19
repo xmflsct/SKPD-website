@@ -4,8 +4,19 @@ import Event from '../layouts/Event.astro'
 import { getCollection } from 'astro:content'
 
 const events = await getCollection('events')
+const latestEvent = events[0]
+
+// Get OG image from the latest event
+const ogImage = latestEvent?.data?.data?.featuredImage?.fields?.file?.url 
+  ? `https:${latestEvent.data.data.featuredImage.fields.file.url}?w=1200&h=630&fit=fill` 
+  : undefined
 ---
 
-<Layout title='Home' keywords={['Terra', 'Delft', 'Terra Delft']} description='SKPD Website'>
-  <Event event={events[0].data} />
+<Layout 
+  title='Home' 
+  keywords={['SKPD', 'keramiek', 'Delft', 'Terra Delft', 'hedendaagse keramiek']} 
+  description='Stichting Keramiek Promotie Delft bevordert de belangstelling voor nationale en internationale hedendaagse keramiek.'
+  ogImage={ogImage}
+>
+  <Event event={latestEvent.data} />
 </Layout>

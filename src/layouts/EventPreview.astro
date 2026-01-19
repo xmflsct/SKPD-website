@@ -1,6 +1,6 @@
 ---
-import type { Entry } from 'contentful'
-import { contentfulSlug, type ContentfulEvent } from '../lib/contentful'
+import { contentfulSlug } from '../lib/contentful'
+import { formatDateRangeDutch } from '../lib/dateFormatter'
 import type { CollectionEntry } from 'astro:content'
 
 interface Props {
@@ -8,11 +8,19 @@ interface Props {
 }
 
 const { event } = Astro.props
+const dateRange = formatDateRangeDutch(event.data.dateStart, event.data.dateEnd)
 ---
 
-<div class='border-b mb-4'>
-  <a href={`/${contentfulSlug(event.data.name)}`} class='text-2xl'>{event.data.name}</a>
-  <div class='my-2'>
-    📅 {event.data.dateStart} - {event.data.dateEnd}
-  </div>
-</div>
+<article class='border-b border-gray-200 mb-4 pb-4 hover:bg-gray-50 -mx-2 px-2 rounded-lg transition-colors'>
+  <a href={`/${contentfulSlug(event.data.name)}`} class='block group'>
+    <h2 class='text-xl font-semibold text-gray-900 group-hover:text-[#003a97] transition-colors mb-1'>
+      {event.data.name}
+    </h2>
+    <time class='flex items-center gap-2 text-sm text-gray-500' datetime={event.data.dateStart}>
+      <svg class='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+        <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'></path>
+      </svg>
+      {dateRange}
+    </time>
+  </a>
+</article>
