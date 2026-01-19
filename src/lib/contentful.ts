@@ -1,4 +1,4 @@
-import type { EntryFieldTypes } from "contentful";
+import type { EntryFieldTypes, EntrySkeletonType } from "contentful";
 import * as contentful from "contentful";
 import slugify from "slugify";
 
@@ -7,7 +7,15 @@ export const contentfulClient = contentful.createClient({
   accessToken: import.meta.env.CONTENTFUL_TOKEN
 });
 
-interface ContentfulEvent {
+interface ContentfulEventType extends EntrySkeletonType {
+  contentTypeId: 'eventType'
+  fields: {
+    name: EntryFieldTypes.Text
+    slug: EntryFieldTypes.Text
+  }
+}
+
+interface ContentfulEvent extends EntrySkeletonType {
   contentTypeId: 'event'
   fields: {
     name: EntryFieldTypes.Text
@@ -19,15 +27,7 @@ interface ContentfulEvent {
   }
 }
 
-interface ContentfulEventType {
-  contentTypeId: 'eventType'
-  fields: {
-    name: EntryFieldTypes.Text
-    slug: EntryFieldTypes.Text
-  }
-}
-
-interface ContentfulPage {
+interface ContentfulPage extends EntrySkeletonType {
   contentTypeId: 'page'
   fields: {
     title: EntryFieldTypes.Text
@@ -36,7 +36,7 @@ interface ContentfulPage {
 }
 
 export const contentfulSlug = (name: string): string => {
-  return slugify(name, { lower: true, locale: 'nl', remove: /[*+~.()'"!:@]/g })
+  return slugify(name, { lower: true, locale: 'nl', remove: /[*+~.()'\"!:@]/g })
 }
 
 export type { ContentfulEvent, ContentfulEventType, ContentfulPage };

@@ -11,9 +11,30 @@ export async function getStaticPaths() {
     props: { data: event.data }
   }))
 }
+
 const { data } = Astro.props
+
+// Extract description from rich text if available (first 160 chars)
+const getPlainTextDescription = (description: any): string => {
+  if (!description?.content) return ''
+  const text = description.content
+    .filter((node: any) => node.nodeType === 'paragraph')
+    .map((node: any) => node.content?.map((c: any) => c.value || '').join(''))
+    .join(' ')
+  return text.slice(0, 160) + (text.length > 160 ? '...' : '')
+}
+
+const eventDescription = getPlainTextDescription(data.data.description)
+const ogImage = data.data.featuredImage?.fields?.file?.url 
+  ? `https:${data.data.featuredImage.fields.file.url}?w=1200&h=630&fit=fill` 
+  : undefined
 ---
 
-<Layout title='Home' keywords={['Terra', 'Delft', 'Terra Delft']} description='SKPD Website'>
+<Layout 
+  title={data.data.name} 
+  keywords={['SKPD', 'keramiek', data.data.name]} 
+  description={eventDescription || `${data.data.name} - SKPD evenement`}
+  ogImage={ogImage}
+>
   <Event event={data} />
 </Layout>

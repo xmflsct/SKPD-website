@@ -3,6 +3,7 @@ import '../styles/global.css'
 import Footer from '../layouts/Footer.astro'
 import Header from '../layouts/Header.astro'
 import { Image } from 'astro:assets'
+import { ViewTransitions } from 'astro:transitions'
 import logo from '../assets/logo.jpg'
 import anbi from '../assets/anbi.svg'
 
@@ -10,39 +11,73 @@ interface Props {
   title: string
   description?: string
   keywords?: string[]
+  ogImage?: string
 }
 
-const { title, description, keywords } = Astro.props
+const { title, description, keywords, ogImage } = Astro.props
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const defaultDescription = 'Stichting Keramiek Promotie Delft - bevorderen van de belangstelling voor hedendaagse keramiek'
+const metaDescription = description || defaultDescription
 ---
 
 <!doctype html>
 <html lang='nl'>
   <head>
     <meta charset='UTF-8' />
-    <meta name='viewport' content='width=device-width' />
-    <link rel='icon' type='image/svg+xml' href='/favicon.ico' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <link rel='icon' href='/favicon.ico' sizes='32x32' />
+    <link rel='canonical' href={canonicalURL} />
 
+    <!-- Primary Meta Tags -->
     <title>{title} | SKPD</title>
-    {description && <meta name='description' content={description} />}
+    <meta name='title' content={`${title} | SKPD`} />
+    <meta name='description' content={metaDescription} />
     {keywords && <meta name='keywords' content={keywords.join(', ')} />}
-    <meta name='og:title' content={title} />
-    {description && <meta name='og:description' content={description} />}
+
+    <!-- Open Graph / Facebook -->
+    <meta property='og:type' content='website' />
+    <meta property='og:url' content={canonicalURL} />
+    <meta property='og:title' content={`${title} | SKPD`} />
+    <meta property='og:description' content={metaDescription} />
+    {ogImage && <meta property='og:image' content={ogImage} />}
+    <meta property='og:locale' content='nl_NL' />
+    <meta property='og:site_name' content='SKPD' />
+
+    <!-- Twitter -->
+    <meta name='twitter:card' content='summary_large_image' />
+    <meta name='twitter:url' content={canonicalURL} />
+    <meta name='twitter:title' content={`${title} | SKPD`} />
+    <meta name='twitter:description' content={metaDescription} />
+    {ogImage && <meta name='twitter:image' content={ogImage} />}
+
+    <ViewTransitions />
   </head>
-  <body class='w-full min-h-screen max-w-screen-lg mx-auto px-6 flex flex-col'>
+  <body class='w-full min-h-screen max-w-screen-lg mx-auto px-6 flex flex-col bg-white'>
     <Header />
 
     <div class='flex flex-row flex-wrap justify-center md:flex md:flex-row'>
-      <main class={'w-full md:order-2 md:w-5/6 md:px-4 prose max-w-none'}>
+      <main class='w-full md:order-2 md:w-5/6 md:px-4 prose max-w-none' transition:animate='fade'>
         <slot />
       </main>
 
       <div id='left-sidebar' class='w-1/2 pr-2 md:order-1 md:w-1/6 md:px-2'>
-        <Image src={logo} alt='SKPD logo' />
-        <p class='text-xs italic pt-2 pb-4'>
+        <Image 
+          src={logo} 
+          alt='SKPD logo' 
+          width={200}
+          quality={80}
+          format='webp'
+          loading='eager'
+        />
+        <p class='text-xs italic pt-2 pb-4 text-gray-600'>
           Stichting Keramiek Promotie Delft heeft ten doel het bevorderen van de belangstelling voor
           en de bekendheid met de nationale en internationale hedendaagse keramiek.
         </p>
-        <Image src={anbi} alt='ANBI logo' />
+        <Image 
+          src={anbi} 
+          alt='ANBI logo'
+          width={80}
+        />
       </div>
     </div>
 
@@ -51,16 +86,38 @@ const { title, description, keywords } = Astro.props
 </html>
 
 <style is:global>
+  /* Smooth transitions */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Link styles */
   a {
     color: #003a97;
     text-decoration: none;
+    transition: color 0.2s ease;
   }
   a:hover {
     color: #c63;
     text-decoration: underline;
   }
 
+  /* Fix for list items */
   ul > li > p {
     margin: 0;
+  }
+
+  /* View transition fade animation */
+  @keyframes fade-in {
+    from { opacity: 0; }
+  }
+  @keyframes fade-out {
+    to { opacity: 0; }
+  }
+  ::view-transition-old(root) {
+    animation: 150ms ease-out fade-out;
+  }
+  ::view-transition-new(root) {
+    animation: 150ms ease-in fade-in;
   }
 </style>

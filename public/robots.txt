@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://skpd.nl/sitemap-index.xml
