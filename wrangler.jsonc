@@ -3,10 +3,6 @@
   "name": "skpd-website",
   "routes": [
     {
-      "pattern": "skpd.nl",
-      "custom_domain": true
-    },
-    {
       "pattern": "www.skpd.nl",
       "custom_domain": true
     }
