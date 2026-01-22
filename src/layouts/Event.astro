@@ -36,6 +36,8 @@ const imageUrl = data.featuredImage?.fields?.file?.url
           src={imageUrl}
           alt={data.featuredImage.fields.title || data.name}
           width={782}
+          widths={[240, 540, 720, 782]}
+          sizes='(max-width: 360px) 240px, (max-width: 720px) 540px, (max-width: 1600px) 720px, 782px'
           height={
             Math.round((782 / data.featuredImage.fields.file.details.image.width) *
             data.featuredImage.fields.file.details.image.height)

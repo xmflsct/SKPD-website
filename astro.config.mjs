@@ -15,8 +15,7 @@ export default defineConfig({
     domains: ['images.ctfassets.net'],
     service: {
       entrypoint: 'astro/assets/services/sharp'
-    },
-    layout: 'constrained'
+    }
   },
   integrations: [sitemap()],
   vite: {
