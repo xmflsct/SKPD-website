@@ -12,10 +12,10 @@ export default defineConfig({
     defaultStrategy: 'viewport'
   },
   image: {
-    domains: ['images.ctfassets.net'],
-    service: {
-      entrypoint: 'astro/assets/services/sharp'
-    },
+    remotePatterns: [{
+      protocol: 'https',
+      hostname: 'images.ctfassets.net',
+    }],
     layout: 'constrained'
   },
   integrations: [sitemap()],
