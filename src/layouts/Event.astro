@@ -35,11 +35,10 @@ const imageUrl = data.featuredImage?.fields?.file?.url
         <Image
           src={imageUrl}
           alt={data.featuredImage.fields.title || data.name}
-          width={782}
-          height={
-            Math.round((782 / data.featuredImage.fields.file.details.image.width) *
-            data.featuredImage.fields.file.details.image.height)
-          }
+          width={data.featuredImage.fields.file.details.image.width}
+          height={data.featuredImage.fields.file.details.image.height}
+          widths={[400, 600, 782, 1200, 1600]}
+          sizes='(max-width: 782px) 100vw, 782px'
           loading='eager'
           class='rounded-lg shadow-sm'
         />
