@@ -3,8 +3,8 @@ import Layout from '../layouts/Layout.astro'
 import Event from '../layouts/Event.astro'
 import { getCollection } from 'astro:content'
 
-const events = await getCollection('events')
-const latestEvent = events[0]
+const latestEvents = await getCollection('latestEvent')
+const latestEvent = latestEvents[0]
 
 // Get OG image from the latest event
 const ogImage = latestEvent?.data?.data?.featuredImage?.fields?.file?.url 
