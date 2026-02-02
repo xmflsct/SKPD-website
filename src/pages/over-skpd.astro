@@ -1,17 +1,21 @@
 ---
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer'
+import { getEntry } from 'astro:content'
 import Layout from '../layouts/Layout.astro'
-import { contentfulClient, type ContentfulPage } from '../lib/contentful'
 import { richTextOptions } from '../lib/richTextOptions'
 
-const page = await contentfulClient.getEntry<ContentfulPage>('76F4GyF2OUCryBQFV3R02x')
+const page = await getEntry('pages', '76F4GyF2OUCryBQFV3R02x')
+
+if (!page) {
+  throw new Error('Page not found')
+}
 ---
 
 <Layout 
-  title={page.fields.title}
+  title={page.data.title}
   description='Leer meer over Stichting Keramiek Promotie Delft, onze missie en activiteiten ter bevordering van hedendaagse keramiek.'
   keywords={['SKPD', 'over ons', 'keramiek', 'Delft', 'stichting']}
 >
-  <h1 class='text-2xl md:text-3xl font-bold mb-6'>{page.fields.title}</h1>
-  <div class='prose prose-lg max-w-none' set:html={documentToHtmlString(page.fields.content, richTextOptions)} />
+  <h1 class='text-2xl md:text-3xl font-bold mb-6'>{page.data.title}</h1>
+  <div class='prose prose-lg max-w-none' set:html={documentToHtmlString(page.data.content, richTextOptions)} />
 </Layout>

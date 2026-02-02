@@ -1,5 +1,5 @@
 import { defineCollection } from 'astro:content';
-import { contentfulClient, type ContentfulEventType, type ContentfulEvent } from './lib/contentful';
+import { contentfulClient, type ContentfulEventType, type ContentfulEvent, type ContentfulPage } from './lib/contentful';
 
 const events = defineCollection<ContentfulEvent>({
   loader: async () => {
@@ -22,4 +22,14 @@ const eventTypes = defineCollection<ContentfulEventType>({
   }
 })
 
-export const collections = { events, eventTypes };
+const pages = defineCollection<ContentfulPage>({
+  loader: async () => {
+    const entries = await contentfulClient.getEntries<ContentfulPage>({
+      content_type: 'page',
+    })
+
+    return entries.items.map(entry => ({ id: entry.sys.id, data: entry.fields }))
+  }
+})
+
+export const collections = { events, eventTypes, pages };
