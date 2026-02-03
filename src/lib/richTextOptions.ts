@@ -11,7 +11,10 @@ export const richTextOptions: Partial<Options> = {
         const url = node.data.target.fields.file.url.startsWith('//')
           ? `https:${node.data.target.fields.file.url}`
           : node.data.target.fields.file.url
-        return (`<figure class="my-6"><img src="${url}?w=782&q=80&fm=webp" alt="${node.data.target.fields.title}" class="rounded-lg shadow-sm" loading="lazy" /></figure>`
+        const { width, height } = node.data.target.fields.file.details?.image || {}
+        const widthAttr = width ? ` width="${width}"` : ''
+        const heightAttr = height ? ` height="${height}"` : ''
+        return (`<figure class="my-6"><img src="${url}?w=782&q=80&fm=webp" alt="${node.data.target.fields.title}" class="rounded-lg shadow-sm" loading="lazy"${widthAttr}${heightAttr} /></figure>`
         )
       } else {
         return (`<p><a href="${node.data.target.fields.file.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">${node.data.target.fields.title} <span>📄</span></a></p>`
