@@ -11,17 +11,7 @@ const events = defineCollection<ContentfulEvent>({
     return entries.items.map(entry => ({ id: entry.sys.id, data: entry.fields }))
   }
 })
-const latestEvent = defineCollection<ContentfulEvent>({
-  loader: async () => {
-    const entries = await contentfulClient.getEntries<ContentfulEvent>({
-      content_type: 'event',
-      order: '-fields.dateEnd' as any,
-      limit: 1
-    })
 
-    return entries.items.map(entry => ({ id: entry.sys.id, data: entry.fields }))
-  }
-})
 const eventTypes = defineCollection<ContentfulEventType>({
   loader: async () => {
     const entries = await contentfulClient.getEntries<ContentfulEventType>({
@@ -33,4 +23,4 @@ const eventTypes = defineCollection<ContentfulEventType>({
   }
 })
 
-export const collections = { events, latestEvent, eventTypes };
+export const collections = { events, eventTypes };
