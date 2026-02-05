@@ -7,7 +7,7 @@ import Event from '../layouts/Event.astro'
 export async function getStaticPaths() {
   const events = await getCollection('events')
   return events.map(event => ({
-    params: { article: contentfulSlug(event.data.data.name) },
+    params: { article: contentfulSlug(event.data.name) },
     props: { data: event.data }
   }))
 }
@@ -24,16 +24,16 @@ const getPlainTextDescription = (description: any): string => {
   return text.slice(0, 160) + (text.length > 160 ? '...' : '')
 }
 
-const eventDescription = getPlainTextDescription(data.data.description)
-const ogImage = data.data.featuredImage?.fields?.file?.url 
-  ? `https:${data.data.featuredImage.fields.file.url}?w=1200&h=630&fit=fill` 
+const eventDescription = getPlainTextDescription(data.description)
+const ogImage = data.featuredImage?.fields?.file?.url
+  ? `https:${data.featuredImage.fields.file.url}?w=1200&h=630&fit=fill`
   : undefined
 ---
 
 <Layout 
-  title={data.data.name} 
-  keywords={['SKPD', 'keramiek', data.data.name]} 
-  description={eventDescription || `${data.data.name} - SKPD evenement`}
+  title={data.name}
+  keywords={['SKPD', 'keramiek', data.name]}
+  description={eventDescription || `${data.name} - SKPD evenement`}
   ogImage={ogImage}
 >
   <Event event={data} />

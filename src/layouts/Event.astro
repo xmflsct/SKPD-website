@@ -10,7 +10,7 @@ interface Props {
 }
 
 const {
-  event: { data }
+  event: data
 } = Astro.props
 
 const dateRange = formatDateRangeDutch(data.dateStart, data.dateEnd)
