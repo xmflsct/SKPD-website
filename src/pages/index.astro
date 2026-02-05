@@ -3,8 +3,11 @@ import Layout from '../layouts/Layout.astro'
 import Event from '../layouts/Event.astro'
 import { getCollection } from 'astro:content'
 
-const latestEvents = await getCollection('latestEvent')
-const latestEvent = latestEvents[0]
+const events = await getCollection('events')
+// Ensure events are sorted by dateEnd descending to match previous 'latestEvent' behavior
+const latestEvent = events.sort((a, b) => {
+  return new Date(b.data.dateEnd).getTime() - new Date(a.data.dateEnd).getTime()
+})[0]
 
 // Get OG image from the latest event
 const ogImage = latestEvent?.data?.data?.featuredImage?.fields?.file?.url 
