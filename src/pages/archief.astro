@@ -4,7 +4,7 @@ import EventPreview from '../layouts/EventPreview.astro'
 
 import { getCollection } from 'astro:content'
 const events = await getCollection('events').then(data =>
-  data.filter(event => !event.data.data.type)
+  data.filter(event => !event.data.type)
 )
 ---
 
@@ -18,6 +18,6 @@ const events = await getCollection('events').then(data =>
     Bekijk hier alle voorgaande evenementen van Stichting Keramiek Promotie Delft.
   </p>
   <div class='space-y-2'>
-    {events.map(event => <EventPreview event={event.data} />)}
+    {events.map(event => <EventPreview event={event} />)}
   </div>
 </Layout>

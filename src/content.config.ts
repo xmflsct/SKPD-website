@@ -8,7 +8,7 @@ const events = defineCollection<ContentfulEvent>({
       order: '-fields.dateEnd' as any
     })
 
-    return entries.items.map(entry => ({ id: entry.sys.id, data: entry.fields }))
+    return entries.items.map(entry => ({ id: entry.sys.id, ...entry.fields }))
   }
 })
 const latestEvent = defineCollection<ContentfulEvent>({
@@ -19,7 +19,7 @@ const latestEvent = defineCollection<ContentfulEvent>({
       limit: 1
     })
 
-    return entries.items.map(entry => ({ id: entry.sys.id, data: entry.fields }))
+    return entries.items.map(entry => ({ id: entry.sys.id, ...entry.fields }))
   }
 })
 const eventTypes = defineCollection<ContentfulEventType>({
@@ -29,7 +29,7 @@ const eventTypes = defineCollection<ContentfulEventType>({
       order: '-sys.updatedAt' as any
     })
 
-    return entries.items.map(entry => ({ id: entry.sys.id, data: entry.fields }))
+    return entries.items.map(entry => ({ id: entry.sys.id, ...entry.fields }))
   }
 })
 

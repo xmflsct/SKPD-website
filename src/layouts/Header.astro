@@ -25,10 +25,10 @@ const currentPath = Astro.url.pathname
     <a href='/' class:list={['nav-link', { active: currentPath === '/' }]}>Home</a>
     {menus.map(menu => (
       <a 
-        href={`/${menu.data.data.slug}`} 
-        class:list={['nav-link', { active: currentPath === `/${menu.data.data.slug}` }]}
+        href={`/${menu.data.slug}`}
+        class:list={['nav-link', { active: currentPath === `/${menu.data.slug}` }]}
       >
-        {menu.data.data.name}
+        {menu.data.name}
       </a>
     ))}
     <a href='/archief' class:list={['nav-link', { active: currentPath === '/archief' }]}>Archief</a>
