@@ -1,10 +1,17 @@
 ---
 import { contentfulSlug } from '../lib/contentful'
 import { formatDateRangeDutch } from '../lib/dateFormatter'
-import type { CollectionEntry } from 'astro:content'
+
+interface EventLike {
+  data: {
+    name: string
+    dateStart: string
+    dateEnd: string
+  }
+}
 
 interface Props {
-  event: CollectionEntry<'events'>
+  event: EventLike
 }
 
 const { event } = Astro.props
