@@ -1,14 +1,14 @@
 import { defineCollection } from 'astro:content';
-import { contentfulClient, type ContentfulEventType, type ContentfulEvent } from './lib/contentful';
+import { contentfulClient, getAllEntries, type ContentfulEventType, type ContentfulEvent } from './lib/contentful';
 
 const events = defineCollection<ContentfulEvent>({
   loader: async () => {
-    const entries = await contentfulClient.getEntries<ContentfulEvent>({
+    const entries = await getAllEntries<ContentfulEvent>({
       content_type: 'event',
       order: '-fields.dateEnd' as any
     })
 
-    return entries.items.map(entry => ({ id: entry.sys.id, ...entry.fields }))
+    return entries.map(entry => ({ id: entry.sys.id, ...entry.fields }))
   }
 })
 const latestEvent = defineCollection<ContentfulEvent>({
@@ -24,12 +24,12 @@ const latestEvent = defineCollection<ContentfulEvent>({
 })
 const eventTypes = defineCollection<ContentfulEventType>({
   loader: async () => {
-    const entries = await contentfulClient.getEntries<ContentfulEventType>({
+    const entries = await getAllEntries<ContentfulEventType>({
       content_type: 'eventType',
       order: '-sys.updatedAt' as any
     })
 
-    return entries.items.map(entry => ({ id: entry.sys.id, ...entry.fields }))
+    return entries.map(entry => ({ id: entry.sys.id, ...entry.fields }))
   }
 })
 

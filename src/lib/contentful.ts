@@ -39,4 +39,24 @@ export const contentfulSlug = (name: string): string => {
   return slugify(name, { lower: true, locale: 'nl', remove: /[*+~.()'\"!:@]/g })
 }
 
+export async function getAllEntries<T extends EntrySkeletonType>(query: any): Promise<contentful.Entry<T, undefined, string>[]> {
+  let allItems: contentful.Entry<T, undefined, string>[] = [];
+  let skip = 0;
+  const limit = 1000;
+  let total = 0;
+
+  do {
+    const entries = await contentfulClient.getEntries<T>({
+      ...query,
+      limit,
+      skip,
+    });
+    allItems.push(...entries.items);
+    skip += limit;
+    total = entries.total;
+  } while (skip < total);
+
+  return allItems;
+}
+
 export type { ContentfulEvent, ContentfulEventType, ContentfulPage };
