@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 
-/* Fix for list items: remove margins from paragraphs inside list items to avoid double spacing */
+/* Remove margins from paragraphs inside list items to avoid double spacing */
 @layer base {
   ul > li > p, ol > li > p {
     margin: 0 !important;
