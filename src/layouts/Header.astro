@@ -1,7 +1,28 @@
 ---
 import { getCollection } from 'astro:content'
+import { contentfulSlug } from '../lib/contentful'
+
 const menus = await getCollection('eventTypes')
-const currentPath = Astro.url.pathname
+const events = await getCollection('events')
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/'
+const currentEventsByType = new Map()
+
+for (const event of events) {
+  const typeId = event.data.type?.sys?.id
+  if (typeId && !currentEventsByType.has(typeId)) {
+    currentEventsByType.set(typeId, event)
+  }
+}
+
+const menuItems = menus.map(menu => {
+  const event = currentEventsByType.get(menu.id)
+  const slug = event ? contentfulSlug(event.data.name) : menu.data.slug
+
+  return {
+    name: menu.data.name,
+    path: `/${slug}`,
+  }
+})
 ---
 
 <header
@@ -23,12 +44,12 @@ const currentPath = Astro.url.pathname
   <!-- Navigation -->
   <nav id='nav-menu' class='hidden md:flex flex-col md:flex-row md:justify-center md:items-center gap-1 md:gap-6 mt-3 md:mt-0 text-sm font-medium'>
     <a href='/' class:list={['nav-link', { active: currentPath === '/' }]}>Home</a>
-    {menus.map(menu => (
+    {menuItems.map(menu => (
       <a 
-        href={`/${menu.data.slug}`}
-        class:list={['nav-link', { active: currentPath === `/${menu.data.slug}` }]}
+        href={menu.path} 
+        class:list={['nav-link', { active: currentPath === menu.path }]}
       >
-        {menu.data.name}
+        {menu.name}
       </a>
     ))}
     <a href='/archief' class:list={['nav-link', { active: currentPath === '/archief' }]}>Archief</a>
@@ -66,12 +87,15 @@ const currentPath = Astro.url.pathname
 </style>
 
 <script>
-  document.addEventListener('astro:page-load', () => {
+  const setupMobileMenu = () => {
     const button = document.getElementById('mobile-menu-button')
     const nav = document.getElementById('nav-menu')
     const menuIcon = document.getElementById('menu-icon')
     const closeIcon = document.getElementById('close-icon')
 
+    if (!button || button.dataset.menuReady) return
+
+    button.dataset.menuReady = 'true'
     button?.addEventListener('click', () => {
       const isExpanded = button.getAttribute('aria-expanded') === 'true'
       button.setAttribute('aria-expanded', (!isExpanded).toString())
@@ -80,5 +104,8 @@ const currentPath = Astro.url.pathname
       menuIcon?.classList.toggle('hidden')
       closeIcon?.classList.toggle('hidden')
     })
-  })
+  }
+
+  document.addEventListener('DOMContentLoaded', setupMobileMenu)
+  document.addEventListener('astro:page-load', setupMobileMenu)
 </script>

@@ -9,13 +9,19 @@ export default defineConfig({
   output: 'static',
   prefetch: {
     prefetchAll: true,
-    defaultStrategy: 'viewport'
+    defaultStrategy: 'hover'
   },
   image: {
-    remotePatterns: [{
-      protocol: 'https',
-      hostname: 'images.ctfassets.net',
-    }],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.ctfassets.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'assets.ctfassets.net',
+      },
+    ],
     layout: 'constrained'
   },
   integrations: [sitemap()],

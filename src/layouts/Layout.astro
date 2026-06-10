@@ -3,7 +3,6 @@ import '../styles/global.css'
 import Footer from '../layouts/Footer.astro'
 import Header from '../layouts/Header.astro'
 import { Image } from 'astro:assets'
-import { ViewTransitions } from 'astro:transitions'
 import logo from '../assets/logo.jpg'
 import anbi from '../assets/anbi.svg'
 
@@ -50,13 +49,12 @@ const metaDescription = description || defaultDescription
     <meta name='twitter:description' content={metaDescription} />
     {ogImage && <meta name='twitter:image' content={ogImage} />}
 
-    <ViewTransitions />
   </head>
   <body class='w-full min-h-screen max-w-screen-lg mx-auto px-6 flex flex-col bg-white'>
     <Header />
 
     <div class='flex flex-row flex-wrap justify-center md:flex md:flex-row'>
-      <main class='w-full md:order-2 md:w-5/6 md:px-4 prose max-w-none' transition:animate='fade'>
+      <main class='w-full md:order-2 md:w-5/6 md:px-4 prose max-w-none'>
         <slot />
       </main>
 
@@ -65,6 +63,8 @@ const metaDescription = description || defaultDescription
           src={logo} 
           alt='SKPD logo' 
           width={200}
+          widths={[120, 200]}
+          sizes='(min-width: 768px) 200px, 50vw'
           quality={80}
           format='webp'
           loading='eager'
@@ -103,17 +103,4 @@ const metaDescription = description || defaultDescription
     text-decoration: underline;
   }
 
-  /* View transition fade animation */
-  @keyframes fade-in {
-    from { opacity: 0; }
-  }
-  @keyframes fade-out {
-    to { opacity: 0; }
-  }
-  ::view-transition-old(root) {
-    animation: 150ms ease-out fade-out;
-  }
-  ::view-transition-new(root) {
-    animation: 150ms ease-in fade-in;
-  }
 </style>
