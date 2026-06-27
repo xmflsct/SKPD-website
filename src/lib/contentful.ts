@@ -35,8 +35,10 @@ interface ContentfulPage extends EntrySkeletonType {
   }
 }
 
+const SLUGIFY_REMOVE_REGEX = /[*+~.()'\"!:@]/g;
+
 export const contentfulSlug = (name: string): string => {
-  return slugify(name, { lower: true, locale: 'nl', remove: /[*+~.()'\"!:@]/g })
+  return slugify(name, { lower: true, locale: 'nl', remove: SLUGIFY_REMOVE_REGEX })
 }
 
 export type { ContentfulEvent, ContentfulEventType, ContentfulPage };
