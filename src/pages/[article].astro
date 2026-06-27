@@ -17,10 +17,19 @@ const { data } = Astro.props
 // Extract description from rich text if available (first 160 chars)
 const getPlainTextDescription = (description: any): string => {
   if (!description?.content) return ''
-  const text = description.content
-    .filter((node: any) => node.nodeType === 'paragraph')
-    .map((node: any) => node.content?.map((c: any) => c.value || '').join(''))
-    .join(' ')
+  let text = ''
+  let first = true
+  for (const node of description.content) {
+    if (node.nodeType === 'paragraph') {
+      if (!first) text += ' '
+      first = false
+      for (const c of node.content || []) {
+        text += c.value || ''
+        if (text.length > 160) break
+      }
+    }
+    if (text.length > 160) break
+  }
   return text.slice(0, 160) + (text.length > 160 ? '...' : '')
 }
 
