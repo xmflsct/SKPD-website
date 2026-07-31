@@ -1,28 +1,26 @@
 ---
-import { documentToHtmlString } from '@contentful/rich-text-html-renderer'
-import { Image } from 'astro:assets'
-import { richTextOptions } from '../lib/richTextOptions'
+import type { ContentEntry } from 'emdash'
+import { PortableText } from 'emdash/ui'
+import type { EventData } from '../lib/cms'
 import { formatDateRangeDutch } from '../lib/dateFormatter'
-import type { CollectionEntry } from 'astro:content'
+import ContentFile from './ContentFile.astro'
+import ContentImage from './ContentImage.astro'
+import ResponsiveImage from './ResponsiveImage.astro'
 
 interface Props {
-  event: CollectionEntry<'events'>['data']
+  event: ContentEntry<EventData>
 }
 
-const {
-  event: data
-} = Astro.props
-
-const dateRange = formatDateRangeDutch(data.dateStart, data.dateEnd)
-const imageUrl = data.featuredImage?.fields?.file?.url 
-  ? `https:${data.featuredImage.fields.file.url}`
-  : null
+const { event } = Astro.props
+const data = event.data
+const dateRange = formatDateRangeDutch(data.start_date, data.end_date)
+const imageSizes = '(min-width: 1024px) 782px, (min-width: 768px) calc(83.33vw - 4.5rem), calc(100vw - 3rem)'
 ---
 
 <article class='border-b mb-6 pb-6'>
-  <h1 class='text-2xl md:text-3xl font-bold mb-2'>{data.name}</h1>
+  <h1 class='text-2xl md:text-3xl font-bold mb-2' {...event.edit.title}>{data.title}</h1>
 
-  <time class='flex items-center gap-2 text-gray-600 mb-4' datetime={data.dateStart}>
+  <time class='flex items-center gap-2 text-gray-600 mb-4' datetime={data.start_date}>
     <svg class='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
       <path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'></path>
     </svg>
@@ -30,19 +28,17 @@ const imageUrl = data.featuredImage?.fields?.file?.url
   </time>
 
   {
-    data.featuredImage && imageUrl && (
-      <figure class='mb-6'>
-        <Image
-          src={imageUrl}
-          alt={data.featuredImage.fields.title || data.name}
-          width={782}
-          widths={[360, 640, 782]}
-          sizes='(min-width: 1024px) 782px, (min-width: 768px) 80vw, calc(100vw - 3rem)'
-          height={
-            Math.round((782 / data.featuredImage.fields.file.details.image.width) *
-            data.featuredImage.fields.file.details.image.height)
-          }
-          loading='eager'
+    data.featured_image && (
+      <figure class='mb-6' {...event.edit.featured_image}>
+        <ResponsiveImage
+          src={data.featured_image.src || `/_emdash/api/media/file/${data.featured_image.meta?.storageKey || data.featured_image.id}`}
+          alt={data.featured_image.alt || data.title}
+          sourceWidth={data.featured_image.width}
+          sourceHeight={data.featured_image.height}
+          sizes={imageSizes}
+          blurhash={data.featured_image.blurhash || data.featured_image.meta?.blurhash as string | undefined}
+          dominantColor={data.featured_image.dominantColor || data.featured_image.meta?.dominantColor as string | undefined}
+          priority
           class='rounded-lg shadow-sm'
         />
       </figure>
@@ -50,8 +46,10 @@ const imageUrl = data.featuredImage?.fields?.file?.url
   }
 
   {
-    data.description && (
-      <div class='prose prose-lg max-w-none' set:html={documentToHtmlString(data.description, richTextOptions)} />
+    data.content && (
+      <div class='prose prose-lg max-w-none'>
+        <PortableText value={data.content} components={{ type: { image: ContentImage, file: ContentFile } }} />
+      </div>
     )
   }
 </article>

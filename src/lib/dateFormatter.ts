@@ -14,8 +14,8 @@ const dutchDateFormatterNoYear = new Intl.DateTimeFormat('nl-NL', {
   month: 'long'
 })
 
-export function formatDateDutch(dateString: string): string {
-  const date = new Date(dateString)
+export function formatDateDutch(value: Date | string): string {
+  const date = new Date(value)
   // Check for invalid date to match toLocaleDateString behavior (which returns "Invalid Date" instead of throwing)
   if (isNaN(date.getTime())) {
     return date.toLocaleDateString('nl-NL', {
@@ -33,7 +33,7 @@ export function formatDateDutch(dateString: string): string {
  * @param endDate - ISO date string for end date
  * @returns Formatted date range string
  */
-export function formatDateRangeDutch(startDate: string, endDate: string): string {
+export function formatDateRangeDutch(startDate: Date | string, endDate: Date | string): string {
   const start = new Date(startDate)
   const end = new Date(endDate)
   

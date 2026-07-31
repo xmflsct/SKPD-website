@@ -1,0 +1,116 @@
+{
+  "$schema": "https://emdashcms.com/seed.schema.json",
+  "version": "1",
+  "defaultLocale": "nl",
+  "meta": {
+    "name": "SKPD",
+    "description": "SKPD content model and navigation",
+    "author": "Stichting Keramiek Promotie Delft"
+  },
+  "settings": {
+    "title": "SKPD",
+    "tagline": "Stichting Keramiek Promotie Delft",
+    "url": "https://www.skpd.nl",
+    "timezone": "Europe/Amsterdam",
+    "seo": {
+      "titleSeparator": " | "
+    }
+  },
+  "collections": [
+    {
+      "slug": "events",
+      "label": "Evenementen",
+      "labelSingular": "Evenement",
+      "description": "Evenementen en historische tentoonstellingen van SKPD",
+      "urlPattern": "/{slug}",
+      "supports": ["drafts", "revisions", "preview", "search", "seo"],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Titel",
+          "type": "string",
+          "required": true,
+          "searchable": true
+        },
+        {
+          "slug": "start_date",
+          "label": "Startdatum",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "slug": "end_date",
+          "label": "Einddatum",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "slug": "featured_image",
+          "label": "Uitgelichte afbeelding",
+          "type": "image"
+        },
+        {
+          "slug": "content",
+          "label": "Inhoud",
+          "type": "portableText",
+          "required": true,
+          "searchable": true
+        }
+      ]
+    },
+    {
+      "slug": "pages",
+      "label": "Pagina's",
+      "labelSingular": "Pagina",
+      "urlPattern": "/{slug}",
+      "supports": ["drafts", "revisions", "preview", "search", "seo"],
+      "fields": [
+        {
+          "slug": "title",
+          "label": "Titel",
+          "type": "string",
+          "required": true,
+          "searchable": true
+        },
+        {
+          "slug": "content",
+          "label": "Inhoud",
+          "type": "portableText",
+          "required": true,
+          "searchable": true
+        }
+      ]
+    }
+  ],
+  "menus": [
+    {
+      "name": "current-events",
+      "label": "Actuele evenementen",
+      "items": [
+        {
+          "type": "custom",
+          "label": "Common Ground; Terra 40!",
+          "url": "/common-ground"
+        },
+        {
+          "type": "custom",
+          "label": "Delftse Keramiek Dagen 2026",
+          "url": "/delftse-keramiek-dagen-2026"
+        },
+        {
+          "type": "custom",
+          "label": "Nationale Keramiekprijs De Kei 2025",
+          "url": "/nationale-keramiekprijs-de-kei-2025"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/sitemap-index.xml",
+      "destination": "/sitemap.xml",
+      "type": 301,
+      "enabled": true
+    }
+  ]
+}

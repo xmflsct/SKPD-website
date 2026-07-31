@@ -1,15 +1,24 @@
 ---
+import { getEmDashCollection, getMenu } from 'emdash'
 import Layout from '../layouts/Layout.astro'
 import EventPreview from '../layouts/EventPreview.astro'
+import type { EventData } from '../lib/cms'
 
-import { getCollection } from 'astro:content'
-const events = await getCollection('events').then(data =>
-  data.filter(event => !event.data.type)
-)
+const [{ entries: allEvents, error }, menu] = await Promise.all([
+  getEmDashCollection<'events', EventData>('events', {
+    status: 'published',
+    orderBy: { end_date: 'desc' },
+  }),
+  getMenu('current-events'),
+])
+if (error) throw error
+
+const currentUrls = new Set(menu?.items.map(item => item.url.replace(/\/$/, '')) ?? [])
+const events = allEvents.filter(event => !currentUrls.has(`/${event.id}`))
 ---
 
-<Layout 
-  title='Archief' 
+<Layout
+  title='Archief'
   keywords={['SKPD', 'archief', 'keramiek', 'evenementen']}
   description='Bekijk het archief van alle SKPD keramiek evenementen door de jaren heen.'
 >

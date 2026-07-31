@@ -3,20 +3,39 @@ import '../styles/global.css'
 import Footer from '../layouts/Footer.astro'
 import Header from '../layouts/Header.astro'
 import { Image } from 'astro:assets'
+import { EmDashBodyEnd, EmDashBodyStart, EmDashHead } from 'emdash/ui'
+import { createPublicPageContext } from 'emdash/page'
 import logo from '../assets/logo.jpg'
 import anbi from '../assets/anbi.svg'
 
 interface Props {
   title: string
+  pageTitle?: string | null
   description?: string
   keywords?: string[]
-  ogImage?: string
+  ogImage?: string | null
+  canonical?: string | null
+  robots?: string | null
+  content?: { collection: string; id: string; slug?: string | null }
 }
 
-const { title, description, keywords, ogImage } = Astro.props
-const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+const { title, pageTitle, description, keywords, ogImage, canonical, robots, content } = Astro.props
+const documentTitle = title.includes('SKPD') ? title : `${title} | SKPD`
+const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).toString()
 const defaultDescription = 'Stichting Keramiek Promotie Delft - bevorderen van de belangstelling voor hedendaagse keramiek'
 const metaDescription = description || defaultDescription
+const page = createPublicPageContext({
+  Astro,
+  kind: content ? 'content' : 'custom',
+  pageType: 'website',
+  title: documentTitle,
+  pageTitle: pageTitle || title,
+  description: metaDescription,
+  canonical: canonicalURL,
+  image: ogImage,
+  content,
+  siteName: 'SKPD',
+})
 ---
 
 <!doctype html>
@@ -28,15 +47,16 @@ const metaDescription = description || defaultDescription
     <link rel='canonical' href={canonicalURL} />
 
     <!-- Primary Meta Tags -->
-    <title>{title} | SKPD</title>
-    <meta name='title' content={`${title} | SKPD`} />
+    <title>{documentTitle}</title>
+    <meta name='title' content={documentTitle} />
     <meta name='description' content={metaDescription} />
+    {robots && <meta name='robots' content={robots} />}
     {keywords && <meta name='keywords' content={keywords.join(', ')} />}
 
     <!-- Open Graph / Facebook -->
     <meta property='og:type' content='website' />
     <meta property='og:url' content={canonicalURL} />
-    <meta property='og:title' content={`${title} | SKPD`} />
+    <meta property='og:title' content={pageTitle || documentTitle} />
     <meta property='og:description' content={metaDescription} />
     {ogImage && <meta property='og:image' content={ogImage} />}
     <meta property='og:locale' content='nl_NL' />
@@ -45,12 +65,14 @@ const metaDescription = description || defaultDescription
     <!-- Twitter -->
     <meta name='twitter:card' content='summary_large_image' />
     <meta name='twitter:url' content={canonicalURL} />
-    <meta name='twitter:title' content={`${title} | SKPD`} />
+    <meta name='twitter:title' content={pageTitle || documentTitle} />
     <meta name='twitter:description' content={metaDescription} />
     {ogImage && <meta name='twitter:image' content={ogImage} />}
+    <EmDashHead page={page} />
 
   </head>
   <body class='w-full min-h-screen max-w-screen-lg mx-auto px-6 flex flex-col bg-white'>
+    <EmDashBodyStart page={page} />
     <Header />
 
     <div class='flex flex-row flex-wrap justify-center md:flex md:flex-row'>
@@ -73,16 +95,18 @@ const metaDescription = description || defaultDescription
           Stichting Keramiek Promotie Delft heeft ten doel het bevorderen van de belangstelling voor
           en de bekendheid met de nationale en internationale hedendaagse keramiek.
         </p>
-        <Image 
-          src={anbi} 
+        <img
+          src={anbi.src}
           alt='ANBI logo'
           width={80}
+          height={64}
           loading='eager'
         />
       </div>
     </div>
 
     <Footer />
+    <EmDashBodyEnd page={page} />
   </body>
 </html>
 

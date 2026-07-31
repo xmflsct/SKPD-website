@@ -1,32 +1,69 @@
 // @ts-check
+import cloudflare from '@astrojs/cloudflare'
+import react from '@astrojs/react'
+import { access, d1, r2 } from '@emdash-cms/cloudflare'
 import { defineConfig } from 'astro/config'
 import tailwindcss from '@tailwindcss/vite'
-import sitemap from '@astrojs/sitemap'
+import emdash from 'emdash/astro'
+import { env } from 'node:process'
+
+const accessTeamDomain = env.CF_ACCESS_TEAM_DOMAIN
+if (env.CLOUDFLARE_ENV && !accessTeamDomain) {
+  throw new Error('CF_ACCESS_TEAM_DOMAIN must be set when building a Cloudflare deployment')
+}
+const auth = accessTeamDomain
+  ? access({
+      teamDomain: accessTeamDomain,
+      audienceEnvVar: 'CF_ACCESS_AUDIENCE',
+      defaultRole: 40,
+      syncRoles: false,
+    })
+  : undefined
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://skpd.nl',
-  output: 'static',
+  site: 'https://www.skpd.nl',
+  output: 'server',
+  adapter: cloudflare(),
   prefetch: {
     prefetchAll: true,
     defaultStrategy: 'hover'
   },
   image: {
+    layout: 'constrained',
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.ctfassets.net',
+        hostname: 'skpd-website-preview.xmflsct.workers.dev',
+        pathname: '/_emdash/api/media/file/**',
       },
       {
         protocol: 'https',
-        hostname: 'assets.ctfassets.net',
+        hostname: 'skpd-website.xmflsct.workers.dev',
+        pathname: '/_emdash/api/media/file/**',
       },
     ],
-    layout: 'constrained'
   },
-  integrations: [sitemap()],
+  i18n: {
+    locales: ['nl'],
+    defaultLocale: 'nl',
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
+  integrations: [
+    react(),
+    emdash({
+      database: d1({ binding: 'DB', session: 'auto' }),
+      storage: r2({ binding: 'MEDIA' }),
+      auth,
+      siteUrl: 'https://www.skpd.nl',
+    }),
+  ],
+  devToolbar: {
+    enabled: false,
+  },
   vite: {
-    // @ts-expect-error - Type mismatch between @tailwindcss/vite and Astro's bundled Vite version
     plugins: [tailwindcss()]
   }
 })

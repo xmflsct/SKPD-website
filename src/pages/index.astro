@@ -1,22 +1,25 @@
 ---
+import { getEmDashCollection } from 'emdash'
 import Layout from '../layouts/Layout.astro'
 import Event from '../layouts/Event.astro'
-import { getCollection } from 'astro:content'
+import { mediaUrl, type EventData } from '../lib/cms'
 
-const latestEvents = await getCollection('latestEvent')
-const latestEvent = latestEvents[0]
+const { entries, error } = await getEmDashCollection<'events', EventData>('events', {
+  status: 'published',
+  orderBy: { end_date: 'desc' },
+  limit: 1,
+})
+if (error) throw error
 
-// Get OG image from the latest event
-const ogImage = latestEvent?.data?.featuredImage?.fields?.file?.url
-  ? `https:${latestEvent.data.featuredImage.fields.file.url}?w=1200&h=630&fit=fill`
-  : undefined
+const event = entries[0]
 ---
 
-<Layout 
-  title='Home' 
-  keywords={['SKPD', 'keramiek', 'Delft', 'Terra Delft', 'hedendaagse keramiek']} 
+<Layout
+  title='Home'
+  keywords={['SKPD', 'keramiek', 'Delft', 'Terra Delft', 'hedendaagse keramiek']}
   description='Stichting Keramiek Promotie Delft bevordert de belangstelling voor nationale en internationale hedendaagse keramiek.'
-  ogImage={ogImage}
+  ogImage={mediaUrl(event?.data.featured_image, Astro.url.origin)}
+  content={event ? { collection: 'events', id: event.data.id, slug: event.id } : undefined}
 >
-  <Event event={latestEvent.data} />
+  {event ? <Event event={event} /> : <p>Er zijn momenteel geen evenementen gepubliceerd.</p>}
 </Layout>

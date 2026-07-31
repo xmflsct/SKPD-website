@@ -1,49 +1,34 @@
 ---
-import { getCollection } from 'astro:content'
-import { contentfulSlug } from '../lib/contentful'
+import { decodeSlug, getEmDashEntry, getSeoMeta } from 'emdash'
 import Layout from '../layouts/Layout.astro'
 import Event from '../layouts/Event.astro'
+import { eventDescription, mediaUrl, type EventData } from '../lib/cms'
 
-export async function getStaticPaths() {
-  const events = await getCollection('events')
-  return events.map(event => ({
-    params: { article: contentfulSlug(event.data.name) },
-    props: { data: event.data }
-  }))
-}
+const slug = decodeSlug(Astro.params.article)
+if (!slug) return Astro.rewrite('/404')
 
-const { data } = Astro.props
+const { entry: event, error } = await getEmDashEntry<'events', EventData>('events', slug)
+if (error && error.name !== 'LiveEntryNotFoundError') throw error
+if (!event) return Astro.rewrite('/404')
 
-// Extract description from rich text if available (first 160 chars)
-const getPlainTextDescription = (description: any): string => {
-  if (!description?.content) return ''
-  let text = ''
-  let first = true
-  for (const node of description.content) {
-    if (node.nodeType === 'paragraph') {
-      if (!first) text += ' '
-      first = false
-      for (const c of node.content || []) {
-        text += c.value || ''
-        if (text.length > 160) break
-      }
-    }
-    if (text.length > 160) break
-  }
-  return text.slice(0, 160) + (text.length > 160 ? '...' : '')
-}
-
-const eventDescription = getPlainTextDescription(data.description)
-const ogImage = data.featuredImage?.fields?.file?.url
-  ? `https:${data.featuredImage.fields.file.url}?w=1200&h=630&fit=fill`
-  : undefined
+const seo = getSeoMeta(event, {
+  siteTitle: 'SKPD',
+  siteUrl: 'https://www.skpd.nl',
+  path: `/${slug}`,
+  defaultDescription: eventDescription(event.data.content),
+  defaultOgImage: mediaUrl(event.data.featured_image, Astro.url.origin),
+})
 ---
 
-<Layout 
-  title={data.name}
-  keywords={['SKPD', 'keramiek', data.name]}
-  description={eventDescription || `${data.name} - SKPD evenement`}
-  ogImage={ogImage}
+<Layout
+  title={seo.title}
+  pageTitle={seo.title}
+  description={seo.description || undefined}
+  keywords={['SKPD', 'keramiek', event.data.title]}
+  canonical={seo.canonical}
+  ogImage={seo.ogImage}
+  robots={seo.robots}
+  content={{ collection: 'events', id: event.data.id, slug }}
 >
-  <Event event={data} />
+  <Event event={event} />
 </Layout>

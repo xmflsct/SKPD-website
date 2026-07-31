@@ -1,0 +1,70 @@
+---
+import { Picture } from 'astro:assets'
+import { responsiveImageDimensions, responsiveImageWidths } from '../lib/responsiveImages.mjs'
+
+interface Props {
+  src: string
+  alt: string
+  sourceWidth?: number
+  sourceHeight?: number
+  maxWidth?: number
+  sizes: string
+  priority?: boolean
+  class?: string
+  blurhash?: string
+  dominantColor?: string
+}
+
+const {
+  src,
+  alt,
+  sourceWidth,
+  sourceHeight,
+  maxWidth = 782,
+  sizes,
+  priority = false,
+  class: className,
+  blurhash,
+  dominantColor,
+} = Astro.props
+const hasDimensions = sourceWidth && sourceHeight
+const dimensions = hasDimensions
+  ? responsiveImageDimensions(sourceWidth, sourceHeight, maxWidth)
+  : undefined
+const widths = dimensions ? responsiveImageWidths(sourceWidth, dimensions.width) : undefined
+let placeholderStyle: string | undefined
+if (blurhash) {
+  const { blurhashToImageCssString } = await import('@unpic/placeholder')
+  placeholderStyle = blurhashToImageCssString(blurhash)
+} else if (dominantColor) {
+  placeholderStyle = `background-color: ${dominantColor};`
+}
+---
+
+{
+  dimensions ? (
+    <Picture
+      src={new URL(src, Astro.url.origin).toString()}
+      alt={alt}
+      width={dimensions.width}
+      height={dimensions.height}
+      widths={widths}
+      sizes={sizes}
+      formats={['avif']}
+      fallbackFormat='webp'
+      priority={priority}
+      loading={priority ? 'eager' : 'lazy'}
+      decoding='async'
+      class={className}
+      style={placeholderStyle}
+    />
+  ) : (
+    <img
+      src={src}
+      alt={alt}
+      loading={priority ? 'eager' : 'lazy'}
+      decoding='async'
+      class={className}
+    />
+  )
+}
