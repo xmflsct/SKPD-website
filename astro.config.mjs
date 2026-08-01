@@ -29,6 +29,19 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: 'hover'
   },
+  experimental: {
+    cache: {
+      provider: {
+        entrypoint: './src/lib/cloudflareCache.mjs',
+      },
+    },
+    routeRules: {
+      '/': { maxAge: 86400, swr: 604800, tags: ['events', 'menus'] },
+      '/archief': { maxAge: 86400, swr: 604800, tags: ['events', 'menus'] },
+      '/over-skpd': { maxAge: 86400, swr: 604800, tags: ['pages', 'menus'] },
+      '/[article]': { maxAge: 86400, swr: 604800, tags: ['events', 'menus'] },
+    },
+  },
   image: {
     layout: 'constrained',
     remotePatterns: [

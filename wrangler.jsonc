@@ -5,6 +5,9 @@
 	"compatibility_flags": [
 		"nodejs_compat"
 	],
+	"cache": {
+		"enabled": true
+	},
 	"d1_databases": [
 		{
 			"binding": "DB",

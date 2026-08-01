@@ -129,9 +129,20 @@ Confirm:
 - An unauthenticated admin request is intercepted by Access and an
   unauthenticated `/_emdash/api/*` write is rejected by EmDash.
 
-Warm each of `/`, `/archief`, and a representative event once, then make 20
-timed requests to each. Record p75 TTFB and leave caching disabled unless any
-page exceeds 300 ms.
+Cloudflare's native Worker cache serves public pages at the edge. Request each
+of `/`, `/archief`, and a representative event twice and confirm the second
+response has `CF-Cache-Status: HIT`; administration and API responses must not
+be cached. Publishing content purges the relevant collection tag, while a menu
+edit purges the `menus` tag. Then make 20 warmed requests to each public page
+and compare p75 TTFB with the existing production site.
+
+Confirm `/sitemap.xml` lists the static, event, and page sitemaps; together they
+must contain the same 28 public URLs as production. Each page must have one
+description, canonical, Open Graph set, and Twitter Card set. The 404 page must
+return 404 with `noindex`, and JSON-LD and canonicals must use
+`https://www.skpd.nl` even on preview. Both slash forms of an existing URL must
+remain reachable; the sitemap and canonical URLs use the no-trailing-slash
+form consistently. Preview-host pages must also emit `noindex, nofollow`.
 
 ## 5. Cutover and rollback
 

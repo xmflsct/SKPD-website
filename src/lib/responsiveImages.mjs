@@ -1,4 +1,4 @@
-const BREAKPOINTS = [320, 480, 640, 750, 782, 960, 1080, 1280, 1600, 1920]
+const BREAKPOINTS = [320, 480, 640, 782, 1080, 1564]
 
 export function responsiveImageDimensions(sourceWidth, sourceHeight, maxWidth = 782) {
   const width = Math.min(sourceWidth, maxWidth)
