@@ -17,6 +17,15 @@ npx wrangler secret put CF_ACCESS_AUDIENCE --env preview
 npm run deploy:preview
 ```
 
+For Workers Builds, set the build variable `SKIP_DEPENDENCY_INSTALL=1` and set
+the build command to `npm run build:cloudflare`. Keep each deploy command
+targeted at its intended Wrangler environment (`--env preview` or
+`--env production`). The repository pins npm 11.6.2 in `package.json`; the
+custom command installs with that version because Workers Builds' automatic
+installer uses its bundled npm version and does not honor `packageManager`.
+Vite is pinned to 7.3.6 as well; Astro 6's Cloudflare build currently breaks
+when Vite 8 is hoisted.
+
 The first deployment provisions the named preview D1 database and R2 bucket when
 they do not exist. Visit the preview URL once so EmDash runs its migrations and
 applies `.emdash/seed.json`.
