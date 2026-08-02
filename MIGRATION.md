@@ -1,42 +1,62 @@
 # Contentful to EmDash rollout
 
-The application code, EmDash schema, `current-events` menu, importer, and Cloudflare
-preview/production bindings are in this repository. Cloudflare resources, Access
-policies, the private Contentful export, imported data, and domain cutover are
+The application code, EmDash schema, `current-events` menu, importer, and the
+single-Worker deployment flow are in this repository. Cloudflare resources,
+Access policies, the private Contentful export, and imported data are
 account-level operations and are intentionally not committed.
 
-## 1. Deploy the preview candidate
+## 1. Configure the single Worker project
 
 `CF_ACCESS_TEAM_DOMAIN` is required by Astro at build time; setting it only as
 a Worker variable is too late. Export it in the shell or configure it in the
-Cloudflare build environment, then set the Access audience as a Worker secret:
+Cloudflare build environment, then set one Access audience as a Worker secret:
 
 ```sh
 export CF_ACCESS_TEAM_DOMAIN=xmflsct.cloudflareaccess.com
-npx wrangler secret put CF_ACCESS_AUDIENCE --env preview
-npm run deploy:preview
+npx wrangler secret put CF_ACCESS_AUDIENCE
 ```
 
-For Workers Builds, set the build variable `SKIP_DEPENDENCY_INSTALL=1` and set
-the build command to `npm run build:cloudflare`. Keep each deploy command
-targeted at its intended Wrangler environment (`--env preview` or
-`--env production`). The repository pins npm 11.6.2 in `package.json`; the
-custom command installs with that version because Workers Builds' automatic
-installer uses its bundled npm version and does not honor `packageManager`.
-Vite is pinned to 7.3.6 as well; Astro 6's Cloudflare build currently breaks
-when Vite 8 is hoisted.
+Create the production resources if they do not already exist:
 
-The first deployment provisions the named preview D1 database and R2 bucket when
-they do not exist. Visit the preview URL once so EmDash runs its migrations and
-applies `.emdash/seed.json`.
+```sh
+npx wrangler d1 create skpd-website
+npx wrangler r2 bucket create skpd-website-media
+```
 
-Create a self-hosted Cloudflare Access application for
-`<preview-host>/_emdash/admin/*`. Its Allow policy must use the exact approved
-email addresses, not an email domain or “everyone”. The first approved user to
-open `/_emdash/admin` becomes Administrator; later users default to Editor.
+The root `wrangler.jsonc` binds these resources to both the production Worker
+and its version preview alias. There is no preview Worker or preview data pair.
+Use one Access application/audience that covers both the preview alias and
+`www.skpd.nl`, because the promoted version and the preview version use the
+same Worker secret.
 
-Repeat this with a separate Access application and audience for
-`www.skpd.nl/_emdash/admin/*` before production deployment.
+For Workers Builds, set `SKIP_DEPENDENCY_INSTALL=1`,
+`SKPD_CLOUDFLARE_DEPLOYMENT=1`, and `CF_ACCESS_TEAM_DOMAIN`, then use:
+
+- build command: `npm run typecheck && npm run test && npm run build:cloudflare`
+- deploy command: `npm run upload-version`
+
+Keep the build root at the repository root and watch the same source/config
+paths covered by `.github/workflows/e2e-tests.yml`. Remove any old
+`CLOUDFLARE_ENV=preview` or `CLOUDFLARE_ENV=production` build variable; it is
+no longer a Wrangler environment selector.
+
+The repository pins npm 11.6.2 in `package.json`; `build:cloudflare` installs
+that version because Workers Builds' automatic installer uses its bundled npm
+version and does not honor `packageManager`. Vite is pinned to 7.3.6 as well;
+Astro 6's Cloudflare build currently breaks when Vite 8 is hoisted.
+
+Set the GitHub repository variable `WORKERS_PREVIEW_URL` to the stable alias:
+
+```text
+https://preview-skpd-website.<CLOUDFLARE_WORKERS_SUBDOMAIN>.workers.dev
+```
+
+The first uploaded version must be visited once so EmDash runs its migrations
+and applies `.emdash/seed.json` to the production resources.
+
+The Access Allow policy must use the exact approved email addresses, not an
+email domain or “everyone”. The first approved user to open `/_emdash/admin`
+becomes Administrator; later users default to Editor.
 
 ## 2. Export Contentful privately
 
@@ -58,7 +78,7 @@ Keep this directory private. `.contentful-export/` and the importer state file
 are ignored as a second guard, but the export should not be placed in the
 repository.
 
-## 3. Import into preview
+## 3. Import into the shared production data store
 
 Create an EmDash API token with Administrator access after the first login.
 Keep the existing read-only `CONTENTFUL_SPACE_ID` and `CONTENTFUL_TOKEN` values
@@ -68,7 +88,7 @@ currently published revision.
 Validate without writing:
 
 ```sh
-EMDASH_URL=https://preview-host.example \
+EMDASH_URL=https://preview-skpd-website.example \
 EMDASH_TOKEN=... \
 npm run contentful:import -- \
   --export /absolute/private/skpd-contentful-export/contentful-export.json \
@@ -78,7 +98,7 @@ npm run contentful:import -- \
 Import only after the dry-run report is correct:
 
 ```sh
-EMDASH_URL=https://preview-host.example \
+EMDASH_URL=https://preview-skpd-website.example \
 EMDASH_TOKEN=... \
 npm run contentful:import -- \
   --export /absolute/private/skpd-contentful-export/contentful-export.json \
@@ -90,6 +110,12 @@ The importer is rerunnable. It preserves live and draft states, skips unchanged
 entries, deduplicates media by SHA-256, converts BMP media to WebP, trashes
 archived entries, and replaces the seeded menu URLs with native event
 references.
+
+The import through the preview alias writes the production D1 database and R2
+bucket by design. If the currently deployed Worker still uses the old preview
+pair, create/use the production pair above and rerun this import; R2 buckets
+cannot be renamed in place. Keep the old pair until the production content and
+media have been verified, then remove it manually.
 
 ## 4. Preview acceptance
 
@@ -153,16 +179,18 @@ return 404 with `noindex`, and JSON-LD and canonicals must use
 remain reachable; the sitemap and canonical URLs use the no-trailing-slash
 form consistently. Preview-host pages must also emit `noindex, nofollow`.
 
-## 5. Cutover and rollback
+## 5. Ongoing deploy and rollback
 
-After preview acceptance:
+For each `main` change:
 
-1. Start the 24-hour Contentful editing freeze and make a final private export.
-2. Deploy and initialize the production candidate with `npm run deploy`.
-3. Run the same dry-run, import, URL/content checks, Access checks, and timing
-   checks against production.
-4. Move the `www.skpd.nl` route only after validation.
-5. Keep the old static Worker and read-only Contentful space for 30 days.
+1. Cloudflare Workers Builds runs type checking, unit tests, builds, and uploads
+   a version tagged with the commit SHA.
+2. `.github/workflows/e2e-tests.yml` runs the HTTP E2E smoke test against the
+   stable preview alias.
+3. The workflow promotes that exact version to 100% only after E2E succeeds.
+4. Roll back from the Cloudflare dashboard using a previous Worker version.
 
-Rollback is restoring the old domain route. Do not delete either D1/R2 pair,
-the static Worker, or Contentful during the retention window.
+Do not use a separate preview Worker or separate D1/R2 pair for this flow. A
+separate data pair is only justified if E2E needs to mutate CMS content or test
+destructive migrations; then it needs a separate Worker or an explicit data
+sync step as well.

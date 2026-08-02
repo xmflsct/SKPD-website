@@ -1,9 +1,17 @@
 {
 	"$schema": "./node_modules/wrangler/config-schema.json",
-	"name": "skpd-website-local",
+	"name": "skpd-website",
 	"compatibility_date": "2026-07-30",
 	"compatibility_flags": [
 		"nodejs_compat"
+	],
+	"workers_dev": false,
+	"preview_urls": true,
+	"routes": [
+		{
+			"pattern": "www.skpd.nl",
+			"custom_domain": true
+		}
 	],
 	"cache": {
 		"enabled": true
@@ -11,53 +19,14 @@
 	"d1_databases": [
 		{
 			"binding": "DB",
-			"database_name": "skpd-website-preview",
-			"migrations_dir": "../../migrations",
-			"database_id": "5ff912e1-4fe7-47c8-9a2c-37eaecae5c34"
+			"database_name": "skpd-website",
+			"database_id": "880e547d-f364-4a9f-ab3f-900bcd3538d0"
 		}
 	],
 	"r2_buckets": [
 		{
 			"binding": "MEDIA",
-			"bucket_name": "skpd-website-media-preview"
+			"bucket_name": "skpd-website-media"
 		}
-	],
-	"env": {
-		"preview": {
-			"name": "skpd-website-preview",
-			"d1_databases": [
-				{
-					"binding": "DB",
-					"database_name": "skpd-website-preview"
-				}
-			],
-			"r2_buckets": [
-				{
-					"binding": "MEDIA",
-					"bucket_name": "skpd-website-media-preview"
-				}
-			]
-		},
-		"production": {
-			"name": "skpd-website",
-			"routes": [
-				{
-					"pattern": "www.skpd.nl",
-					"custom_domain": true
-				}
-			],
-			"d1_databases": [
-				{
-					"binding": "DB",
-					"database_name": "skpd-website"
-				}
-			],
-			"r2_buckets": [
-				{
-					"binding": "MEDIA",
-					"bucket_name": "skpd-website-media"
-				}
-			]
-		}
-	},
+	]
 }

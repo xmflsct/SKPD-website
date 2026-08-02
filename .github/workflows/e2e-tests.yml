@@ -1,0 +1,81 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".emdash/**"
+      - "astro.config.mjs"
+      - "emdash-env.d.ts"
+      - "package.json"
+      - "package-lock.json"
+      - "public/**"
+      - "scripts/**"
+      - "src/**"
+      - "tsconfig.json"
+      - "wrangler.jsonc"
+  workflow_dispatch:
+
+permissions:
+  checks: read
+  contents: read
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Wait for Workers Build
+        if: github.event_name == 'push'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const checkName = "Workers Builds: skpd-website";
+
+            for (let attempt = 0; attempt < 120; attempt++) {
+              const { data } = await github.rest.checks.listForRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: context.sha,
+                per_page: 100,
+              });
+              const check = data.check_runs.find(({ name }) => name === checkName);
+
+              if (check?.conclusion === "success") return;
+              if (check?.status === "completed") {
+                throw new Error(`${checkName} finished with ${check.conclusion}`);
+              }
+
+              await new Promise((resolve) => setTimeout(resolve, 5000));
+            }
+
+            throw new Error(`Timed out waiting for ${checkName}`);
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run E2E smoke test
+        run: npm run e2e
+        env:
+          WORKERS_PREVIEW_URL: ${{ vars.WORKERS_PREVIEW_URL }}
+
+      - name: Promote Worker version
+        if: github.event_name == 'push'
+        run: >-
+          npm exec -- wrangler versions deploy
+          --version-tag "${{ github.sha }}"
+          --percentage 100
+          --message "Promoted after E2E run ${{ github.run_id }}"
+          --yes
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

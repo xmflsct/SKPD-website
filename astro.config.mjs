@@ -8,7 +8,7 @@ import emdash from 'emdash/astro'
 import { env } from 'node:process'
 
 const accessTeamDomain = env.CF_ACCESS_TEAM_DOMAIN
-if (env.CLOUDFLARE_ENV && !accessTeamDomain) {
+if (env.SKPD_CLOUDFLARE_DEPLOYMENT && !accessTeamDomain) {
   throw new Error('CF_ACCESS_TEAM_DOMAIN must be set when building a Cloudflare deployment')
 }
 const auth = accessTeamDomain
@@ -47,12 +47,12 @@ export default defineConfig({
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'skpd-website-preview.xmflsct.workers.dev',
+        hostname: 'preview-skpd-website.xmflsct.workers.dev',
         pathname: '/_emdash/api/media/file/**',
       },
       {
         protocol: 'https',
-        hostname: 'skpd-website.xmflsct.workers.dev',
+        hostname: 'www.skpd.nl',
         pathname: '/_emdash/api/media/file/**',
       },
     ],

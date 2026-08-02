@@ -8,12 +8,13 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "build:cloudflare": "npm exec --yes --package=npm@11.6.2 -- npm ci --progress=false && npm run build",
+    "build:cloudflare": "npm exec --yes --package=npm@11.6.2 -- npm ci --progress=false && SKPD_CLOUDFLARE_DEPLOYMENT=1 npm run build",
     "preview": "astro preview",
-    "deploy": "CLOUDFLARE_ENV=production astro build && wrangler deploy",
-    "deploy:preview": "CLOUDFLARE_ENV=preview astro build && wrangler deploy",
+    "deploy": "SKPD_CLOUDFLARE_DEPLOYMENT=1 npm run build && wrangler deploy",
+    "upload-version": "wrangler versions upload --preview-alias preview --tag \"${WORKERS_CI_COMMIT_SHA:-$(git rev-parse HEAD)}\"",
     "typecheck": "astro check",
     "test": "node --test",
+    "e2e": "node scripts/e2e.mjs",
     "contentful:import": "node --env-file-if-exists=.env scripts/import-contentful.mjs",
     "emdash:init": "emdash init",
     "astro": "astro"
