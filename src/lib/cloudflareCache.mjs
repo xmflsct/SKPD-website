@@ -7,10 +7,15 @@ export default function cloudflareCache() {
       if (path) options.pathPrefixes = [path]
       if (!options.tags && !options.pathPrefixes) return
 
-      const { cache } = await import('cloudflare:workers')
-      const result = await cache.purge(options)
-      if (!result.success) {
-        throw new Error(`Cloudflare cache purge failed: ${JSON.stringify(result.errors)}`)
+      try {
+        const { cache } = await import('cloudflare:workers')
+        const result = await cache.purge(options)
+        if (!result.success) {
+          console.error('Cloudflare cache purge failed:', result.errors)
+        }
+      } catch (error) {
+        // ponytail: best-effort purge; stale entries expire via route TTL, add a retry queue if this becomes material
+        console.error('Cloudflare cache purge threw:', error)
       }
     },
   }
