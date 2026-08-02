@@ -24,10 +24,9 @@ npx wrangler r2 bucket create skpd-website-media
 ```
 
 The root `wrangler.jsonc` binds these resources to both the production Worker
-and its version preview alias. There is no preview Worker or preview data pair.
-Use one Access application/audience that covers both the preview alias and
-`www.skpd.nl`, because the promoted version and the preview version use the
-same Worker secret.
+and its version preview URLs. There is no preview Worker or preview data pair.
+Use one Access application/audience that covers both the version preview URLs
+and `www.skpd.nl`, because they use the same Worker secret.
 
 For Workers Builds, set `SKIP_DEPENDENCY_INSTALL=1`,
 `SKPD_CLOUDFLARE_DEPLOYMENT=1`, and `CF_ACCESS_TEAM_DOMAIN`, then use:
@@ -45,11 +44,9 @@ that version because Workers Builds' automatic installer uses its bundled npm
 version and does not honor `packageManager`. Vite is pinned to 7.3.6 as well;
 Astro 6's Cloudflare build currently breaks when Vite 8 is hoisted.
 
-Set the GitHub repository variable `WORKERS_PREVIEW_URL` to the stable alias:
-
-```text
-https://preview-skpd-website.<CLOUDFLARE_WORKERS_SUBDOMAIN>.workers.dev
-```
+The GitHub E2E workflow runs after the Workers Build check against the public
+production URL, `https://www.skpd.nl`. No preview URL repository variable is
+required. For local validation, set `WORKERS_PREVIEW_URL` to that same URL.
 
 The first uploaded version must be visited once so EmDash runs its migrations
 and applies `.emdash/seed.json` to the production resources.
@@ -111,7 +108,7 @@ entries, deduplicates media by SHA-256, converts BMP media to WebP, trashes
 archived entries, and replaces the seeded menu URLs with native event
 references.
 
-The import through the preview alias writes the production D1 database and R2
+The import through a version preview URL writes the production D1 database and R2
 bucket by design. If the currently deployed Worker still uses the old preview
 pair, create/use the production pair above and rerun this import; R2 buckets
 cannot be renamed in place. Keep the old pair until the production content and
@@ -183,12 +180,11 @@ form consistently. Preview-host pages must also emit `noindex, nofollow`.
 
 For each `main` change:
 
-1. Cloudflare Workers Builds runs type checking, unit tests, builds, and uploads
-   a version tagged with the commit SHA.
-2. `.github/workflows/e2e-tests.yml` runs the HTTP E2E smoke test against the
-   stable preview alias.
-3. The workflow promotes that exact version to 100% only after E2E succeeds.
-4. Roll back from the Cloudflare dashboard using a previous Worker version.
+1. Cloudflare Workers Builds runs type checking, unit tests, builds, and deploys
+   the Worker to production.
+2. `.github/workflows/e2e-tests.yml` waits for that build check, then runs the
+   HTTP E2E smoke test against `https://www.skpd.nl`.
+3. Roll back from the Cloudflare dashboard using a previous Worker version.
 
 Do not use a separate preview Worker or separate D1/R2 pair for this flow. A
 separate data pair is only justified if E2E needs to mutate CMS content or test
