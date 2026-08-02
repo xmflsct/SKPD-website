@@ -11,6 +11,10 @@
 		{
 			"pattern": "www.skpd.nl",
 			"custom_domain": true
+		},
+		{
+			"pattern": "skpd.nl",
+			"custom_domain": true
 		}
 	],
 	"cache": {
