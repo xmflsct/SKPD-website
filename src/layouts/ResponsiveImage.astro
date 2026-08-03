@@ -1,6 +1,10 @@
 ---
 import { Picture } from 'astro:assets'
-import { responsiveImageDimensions, responsiveImageWidths } from '../lib/responsiveImages.mjs'
+import {
+  canonicalSiteUrl,
+  responsiveImageDimensions,
+  responsiveImageWidths,
+} from '../lib/responsiveImages.mjs'
 
 interface Props {
   src: string
@@ -32,6 +36,7 @@ const dimensions = hasDimensions
   ? responsiveImageDimensions(sourceWidth, sourceHeight, maxWidth)
   : undefined
 const widths = dimensions ? responsiveImageWidths(sourceWidth, dimensions.width) : undefined
+const resolvedSrc = canonicalSiteUrl(src, Astro.site?.origin || Astro.url.origin) || src
 let placeholderStyle: string | undefined
 if (blurhash) {
   const { blurhashToImageCssString } = await import('@unpic/placeholder')
@@ -44,7 +49,7 @@ if (blurhash) {
 {
   dimensions ? (
     <Picture
-      src={new URL(src, Astro.url.origin).toString()}
+      src={resolvedSrc}
       alt={alt}
       width={dimensions.width}
       height={dimensions.height}
@@ -61,7 +66,7 @@ if (blurhash) {
     />
   ) : (
     <img
-      src={src}
+      src={resolvedSrc}
       alt={alt}
       loading={priority ? 'eager' : 'lazy'}
       decoding='async'

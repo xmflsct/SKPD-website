@@ -16,7 +16,7 @@ const seo = getSeoMeta(event, {
   siteUrl: 'https://www.skpd.nl',
   path: `/${slug}`,
   defaultDescription: eventDescription(event.data.content),
-  defaultOgImage: mediaUrl(event.data.featured_image, Astro.url.origin),
+  defaultOgImage: mediaUrl(event.data.featured_image, Astro.site?.origin || Astro.url.origin),
 })
 ---
 

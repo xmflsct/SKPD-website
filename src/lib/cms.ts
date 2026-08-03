@@ -1,5 +1,6 @@
 import { extractPlainText } from 'emdash'
 import type { ContentSeo, MediaValue, PortableTextBlock } from 'emdash'
+import { canonicalSiteUrl } from './responsiveImages.mjs'
 
 export interface EventData {
   id: string
@@ -30,5 +31,5 @@ export function mediaUrl(media: MediaValue | null | undefined, origin: string): 
   const path = typeof storageKey === 'string'
     ? `/_emdash/api/media/file/${storageKey}`
     : media?.src
-  return path ? new URL(path, origin).toString() : undefined
+  return path ? canonicalSiteUrl(path, origin) : undefined
 }

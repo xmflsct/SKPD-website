@@ -6,6 +6,10 @@ import { defineConfig } from 'astro/config'
 import tailwindcss from '@tailwindcss/vite'
 import emdash from 'emdash/astro'
 import { env } from 'node:process'
+import { fileURLToPath } from 'node:url'
+
+const cachePluginEntrypoint = fileURLToPath(new URL('./src/lib/cachePurgePlugin.mjs', import.meta.url))
+const cachePluginAdminEntry = fileURLToPath(new URL('./src/lib/cachePurgeAdmin.tsx', import.meta.url))
 
 const accessTeamDomain = env.CF_ACCESS_TEAM_DOMAIN
 if (env.SKPD_CLOUDFLARE_DEPLOYMENT && !accessTeamDomain) {
@@ -36,7 +40,7 @@ export default defineConfig({
       },
     },
     routeRules: {
-      '/': { maxAge: 86400, swr: 604800, tags: ['events', 'menus'] },
+      '/': { maxAge: 86400, swr: 604800, tags: ['events', 'menus', 'home'] },
       '/archief': { maxAge: 86400, swr: 604800, tags: ['events', 'menus'] },
       '/over-skpd': { maxAge: 86400, swr: 604800, tags: ['pages', 'menus'] },
       '/[article]': { maxAge: 86400, swr: 604800, tags: ['events', 'menus'] },
@@ -71,6 +75,14 @@ export default defineConfig({
       storage: r2({ binding: 'MEDIA' }),
       auth,
       siteUrl: 'https://www.skpd.nl',
+      plugins: [{
+        id: 'skpd-cache',
+        version: '0.1.0',
+        format: 'native',
+        entrypoint: cachePluginEntrypoint,
+        adminEntry: cachePluginAdminEntry,
+        adminPages: [{ path: '/', label: 'Cache' }],
+      }],
     }),
   ],
   devToolbar: {

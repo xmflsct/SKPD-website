@@ -18,7 +18,7 @@ const event = entries[0]
   title='Home'
   keywords={['SKPD', 'keramiek', 'Delft', 'Terra Delft', 'hedendaagse keramiek']}
   description='Stichting Keramiek Promotie Delft bevordert de belangstelling voor nationale en internationale hedendaagse keramiek.'
-  ogImage={mediaUrl(event?.data.featured_image, Astro.url.origin)}
+  ogImage={mediaUrl(event?.data.featured_image, Astro.site?.origin || Astro.url.origin)}
   content={event ? { collection: 'events', id: event.data.id, slug: event.id } : undefined}
 >
   {event ? <Event event={event} /> : <p>Er zijn momenteel geen evenementen gepubliceerd.</p>}

@@ -8,16 +8,21 @@ export default function cloudflareCache() {
       if (!options.tags && !options.pathPrefixes) return
 
       try {
-        const { cache } = await import('cloudflare:workers')
-        const result = await cache.purge(options)
-        if (!result.success) {
-          console.error('Cloudflare cache purge failed:', result.errors)
-        }
+        await purgeCloudflareCache(options)
       } catch (error) {
         // ponytail: best-effort purge; stale entries expire via route TTL, add a retry queue if this becomes material
         console.error('Cloudflare cache purge threw:', error)
       }
     },
+  }
+}
+
+export async function purgeCloudflareCache(options) {
+  const { cache } = await import('cloudflare:workers')
+  const result = await cache.purge(options)
+  if (!result.success) {
+    console.error('Cloudflare cache purge failed:', result.errors)
+    throw new Error('Cloudflare cache purge failed')
   }
 }
 

@@ -18,7 +18,8 @@
 		}
 	],
 	"cache": {
-		"enabled": true
+		"enabled": true,
+		"cross_version_cache": true
 	},
 	"d1_databases": [
 		{
