@@ -25,7 +25,20 @@ async function check(path, expectedStatus, expectedBody) {
 
 const home = await check('/', 200, /<html[\s>]/i)
 for (const [path, expectedStatus, expectedBody] of checks) {
-  await check(path, expectedStatus, expectedBody)
+  const html = await check(path, expectedStatus, expectedBody)
+  if (path === '/over-skpd') {
+    const files = [...html.matchAll(/<a\b[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/g)]
+      .filter(([, , content]) => content.includes('📄'))
+    assert.ok(files.length, 'Over SKPD did not expose any document links')
+    for (const [, href] of files) {
+      assert.ok(href && href !== '#', 'document link has no file URL')
+      const response = await fetch(new URL(href.replaceAll('&amp;', '&'), base))
+      assert.equal(response.status, 200, `document ${href} returned ${response.status}`)
+      assert.doesNotMatch(response.headers.get('content-type') || '', /text\/html/i,
+        `document ${href} returned HTML instead of a file`)
+      await response.body?.cancel()
+    }
+  }
 }
 
 const mediaPath = home.match(/\/_emdash\/api\/media\/file\/[^"'?\s<]+/)?.[0]
