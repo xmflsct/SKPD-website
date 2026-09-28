@@ -88,7 +88,9 @@ export function planPageBlocks(nodes, mediaItems, pageSlug = 'over-skpd') {
     }
 
     flushText()
-    const storageKey = storageKeyFromUrl(node.url)
+    // The original importer wrote `url`; older editor saves normalized that
+    // public URL into `id`. Both are legacy URL carriers here, not media IDs.
+    const storageKey = storageKeyFromUrl(node.url || node.id)
     const title = typeof node.label === 'string' && node.label.trim()
       ? node.label.trim()
       : typeof node.filename === 'string' && node.filename.trim()
@@ -96,7 +98,7 @@ export function planPageBlocks(nodes, mediaItems, pageSlug = 'over-skpd') {
         : undefined
 
     if (!storageKey || !title) {
-      unresolved.push({ filename: node.filename, url: node.url, reason: !storageKey ? 'missing storage key' : 'missing title' })
+      unresolved.push({ filename: node.filename, url: node.url || node.id, reason: !storageKey ? 'missing storage key' : 'missing title' })
       continue
     }
 

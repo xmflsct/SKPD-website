@@ -64,6 +64,15 @@ test('creates a native media reference object', () => {
   assert.equal(typeof result.blocks[0].file, 'object')
 })
 
+test('resolves legacy editor nodes whose public URL is stored in id', () => {
+  const result = migratePortableTextToBlocks(
+    [{ _type: 'file', _key: 'foo', id: '/_emdash/api/media/file/foo.pdf', filename: 'foo.pdf', label: 'Foo' }],
+    [{ id: 'MEDIA-123', filename: 'foo.pdf', mimeType: 'application/pdf', storageKey: 'foo.pdf' }],
+  )
+  assert.equal(result.blocks[0].file.id, 'MEDIA-123')
+  assert.equal(result.blocks[0].file.meta.storageKey, 'foo.pdf')
+})
+
 test('fails when a media item is missing', () => {
   assert.throws(() => migratePortableTextToBlocks([file('A')], []), /every legacy file/)
 })
