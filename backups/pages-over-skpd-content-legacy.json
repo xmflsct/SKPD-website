@@ -1,0 +1,660 @@
+{
+  "collection": "pages",
+  "page": {
+    "id": "01KZ19VRGXGPQYGMNA8YWK0W1T",
+    "slug": "over-skpd",
+    "title": "Over SKPD"
+  },
+  "field": {
+    "slug": "content",
+    "type": "portableText",
+    "label": "Inhoud (legacy)"
+  },
+  "content": [
+    {
+      "_type": "block",
+      "_key": "p92ptkrm6",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "pcstz3ojz",
+          "text": "Bestuur"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "sgsv8amxj",
+      "style": "normal",
+      "listItem": "bullet",
+      "level": 1,
+      "children": [
+        {
+          "_type": "span",
+          "_key": "hq8z59uko",
+          "text": "Bert van Meggelen, voorzitter"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "9kknobklp",
+      "style": "normal",
+      "listItem": "bullet",
+      "level": 1,
+      "children": [
+        {
+          "_type": "span",
+          "_key": "arcn23tuz",
+          "text": "Rosemarie Willems, secretaris"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "uewg98rxy",
+      "style": "normal",
+      "listItem": "bullet",
+      "level": 1,
+      "children": [
+        {
+          "_type": "span",
+          "_key": "4gtseu43j",
+          "text": "vacant, penningmeester"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "ehld74v0v",
+      "style": "normal",
+      "listItem": "bullet",
+      "level": 1,
+      "children": [
+        {
+          "_type": "span",
+          "_key": "c1eutn01l",
+          "text": "vacant, bestuurslid"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "zlpi94fau",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "qptbcj5ip",
+          "text": "Werkgroep"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "u9nc9opxv",
+      "style": "normal",
+      "listItem": "bullet",
+      "level": 1,
+      "children": [
+        {
+          "_type": "span",
+          "_key": "1reynd757",
+          "text": "Joke Doedens"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "8liejh6z2",
+      "style": "normal",
+      "listItem": "bullet",
+      "level": 1,
+      "children": [
+        {
+          "_type": "span",
+          "_key": "kztt2gyfm",
+          "text": "Simone Haak"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "ab1jfrd22",
+      "style": "normal",
+      "listItem": "bullet",
+      "level": 1,
+      "children": [
+        {
+          "_type": "span",
+          "_key": "xcxvdq2sc",
+          "text": "Ankie Maessen"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "m3ssbj5z3",
+      "style": "normal",
+      "listItem": "bullet",
+      "level": 1,
+      "children": [
+        {
+          "_type": "span",
+          "_key": "9ls0x8equ",
+          "text": "Marieke Butter"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "l3yp3bjp3",
+      "style": "normal",
+      "listItem": "bullet",
+      "level": 1,
+      "children": [
+        {
+          "_type": "span",
+          "_key": "va5tzrafd",
+          "text": "Herman Weyers"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "ohjzrre2m",
+      "style": "normal",
+      "listItem": "bullet",
+      "level": 1,
+      "children": [
+        {
+          "_type": "span",
+          "_key": "h9wyrbpg3",
+          "text": "Ellen Rijsdorp"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "upijqsh3i",
+      "style": "normal",
+      "listItem": "bullet",
+      "level": 1,
+      "children": [
+        {
+          "_type": "span",
+          "_key": "mww7fovb5",
+          "text": "Gerda Vermeer"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "cs6btp1z5",
+      "style": "normal",
+      "listItem": "bullet",
+      "level": 1,
+      "children": [
+        {
+          "_type": "span",
+          "_key": "1veckc5se",
+          "text": "Joke Bouma"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "ccmul9h28",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "k901n3h48",
+          "text": "Contactgegevens"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "a9fid7dq4",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "2xa44uga7",
+          "text": "Adres:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "n20azdiin",
+          "text": " Nieuwstraat 7, 2611 HK Delft, Nederland"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "4xey3d889",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "kp6bmanf7",
+          "text": "Telefoon:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "l41zd982l",
+          "text": " +31 (0)15 2147072"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "wmejjorut",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "f6e8xkbi6",
+          "text": "Contactpersoon:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "krolcmqfo",
+          "text": " Joke Doedens"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "06j48yyk5",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "huwtttoic",
+          "text": "E-mail:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "5j5bn559m",
+          "text": " info@skpd.nl"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "2b06r4k9p",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "4lbrrzovo",
+          "text": "IBAN:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "ctf8golg8",
+          "text": " NL32 INGB 0006 8820 79"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "akd6yyx9o",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "w6yxjwb86",
+          "text": "KvK Haaglanden:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "xxk5yqdyp",
+          "text": " 41147073"
+        }
+      ]
+    },
+    {
+      "filename": "Beleidsplan SKPD 2026 - 2030.pdf",
+      "label": "Beleidsplan 2026-2030",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "h4hrmdkof",
+      "id": "/_emdash/api/media/file/01KZ19RZTFZ1P9M1H0V6Y4MGB5.pdf"
+    },
+    {
+      "_type": "block",
+      "_key": "9zgpyc31r",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "d6476sd3r",
+          "text": "Beloningsbeleid"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "tlxs308t6",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "n2yorl7x7",
+          "text": "Conform het reglement kan aan de bestuurders voor hun werkzaamheden geen beloning en geen vacatie- of presentiegeld worden toegekend."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "dmfuh9y3j",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "bbt4wzyzo",
+          "text": "SKPD heeft geen betaalde krachten in dienst."
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "nkffva65w",
+      "style": "h3",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "0r1116xbe",
+          "text": "Informatie mbt ANBI-status"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "m7r6nx3j6",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "r9bvq5h6n",
+          "text": "Naam:",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "poan4rc2u",
+          "text": " Stichting Keramiek Promotie Delft"
+        }
+      ]
+    },
+    {
+      "_type": "block",
+      "_key": "oirrof114",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "l700nf57f",
+          "text": "RSIN (fiscaal nummer):",
+          "marks": [
+            "strong"
+          ]
+        },
+        {
+          "_type": "span",
+          "_key": "11s7vg6la",
+          "text": " 8049.05.514"
+        }
+      ]
+    },
+    {
+      "_type": "image",
+      "_key": "t3zr5whax",
+      "asset": {
+        "_ref": "01M3MP2S7CK2FZYCVMF5TRP713",
+        "url": "/_emdash/api/media/file/01M3MP2S7CH4XEPPA0Z0J1HTR7.01M3MP2SJ8HWGAC7E4KHCGZ8NV.pdf"
+      },
+      "alt": "2025 inhoudelijk verslag.pdf"
+    },
+    {
+      "filename": "2025 financieel verslag.xlsx",
+      "label": "2025 financieel verslag",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "lg7n2smjc",
+      "id": "/_emdash/api/media/file/01KZ19VCYH0G9FXACP3J48DSMR.xlsx"
+    },
+    {
+      "filename": "2025 financieel verslag.xlsx",
+      "label": "2025 financieel verslag",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "6kf0gj7yd",
+      "id": "/_emdash/api/media/file/01KZ19VCYH0G9FXACP3J48DSMR.xlsx"
+    },
+    {
+      "filename": "2024 financieel verslag.pdf",
+      "label": "2024 financieel verslag",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "5m0kd77wu",
+      "id": "/_emdash/api/media/file/01KZ19TPMHT5S686CR22SGGDKQ.pdf"
+    },
+    {
+      "filename": "DKD 2024 Inhoudelijk verslag.pdf",
+      "label": "2024 Inhoudelijk verslag",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "i35fm5rsk",
+      "id": "/_emdash/api/media/file/01KZ19R5D0N6B3Z0KD36K5MFB4.pdf"
+    },
+    {
+      "filename": "2023 financieel verslag.pdf",
+      "label": "2023 financieel verslag",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "yvjnhq31m",
+      "id": "/_emdash/api/media/file/01KZ19SFWQMKMHBG7EYH41883T.pdf"
+    },
+    {
+      "filename": "2022 inhoudelijk verslag SKPD.pdf",
+      "label": "2022 inhoudelijk verslag SKPD",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "f13168nbl",
+      "id": "/_emdash/api/media/file/01KZ19SWYDV54QGNHHKCDVVRCM.pdf"
+    },
+    {
+      "filename": "2022 financieel verslag versie april 23.pdf",
+      "label": "2022 financieel verslag",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "bn3403m9j",
+      "id": "/_emdash/api/media/file/01KZ19RVRECC188AD33G8XY65A.pdf"
+    },
+    {
+      "filename": "2021 inhoudelijk verslag.pdf",
+      "label": "2021 inhoudelijk verslag",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "58l76kggv",
+      "id": "/_emdash/api/media/file/01KZ19VEAAHH0VH1NGRFK4817R.pdf"
+    },
+    {
+      "filename": "2021 Jaarrekening.pdf",
+      "label": "2021 Jaarrekening",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "rbh9eoasa",
+      "id": "/_emdash/api/media/file/01KZ19SXPMM30SY7D71355S0CT.pdf"
+    },
+    {
+      "filename": "2020 inhoudelijk verslag.pdf",
+      "label": "2020 inhoudelijk verslag",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "ix84kj741",
+      "id": "/_emdash/api/media/file/01KZ19SZJ8WPGH5DTE9GQ7846T.pdf"
+    },
+    {
+      "filename": "2020 financieel overzicht.pdf",
+      "label": "2020 financieel overzicht",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "k7886q3q5",
+      "id": "/_emdash/api/media/file/01KZ19SYWTQ3M4R81KFQYBTPCY.pdf"
+    },
+    {
+      "filename": "2019 inhoudelijk verslag.pdf",
+      "label": "2019 inhoudelijk verslag",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "vzp3p2l2r",
+      "id": "/_emdash/api/media/file/01KZ19TW6C8R8X01S531VGKHCN.pdf"
+    },
+    {
+      "filename": "2019 financieel overzicht.pdf",
+      "label": "2019 financieel overzicht",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "et6pyvwwj",
+      "id": "/_emdash/api/media/file/01KZ19VFJ7RVRW5JTQQ15MBK0S.pdf"
+    },
+    {
+      "_type": "block",
+      "_key": "xxpd55p0h",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "beqofp4c4",
+          "text": ""
+        }
+      ]
+    },
+    {
+      "filename": "inhverslag2018.pdf",
+      "label": "Verslag 2018",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "x0payicup",
+      "id": "/_emdash/api/media/file/01KZ19RH4KCTNJFV63WEYHW00Z.pdf"
+    },
+    {
+      "filename": "balans2018.pdf",
+      "label": "Financieel verslag 2018",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "oszwg2vt5",
+      "id": "/_emdash/api/media/file/01KZ19S5KJ8E7W7PVQV30JRYAT.pdf"
+    },
+    {
+      "filename": "inh_verslag2017.pdf",
+      "label": "Verslag 2017",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "s8wgqky0p",
+      "id": "/_emdash/api/media/file/01KZ19VEVDP0JZ6H33FDARAGN7.pdf"
+    },
+    {
+      "filename": "Eindbalans2017.pdf",
+      "label": "Financieel verslag 2017",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "rr962hoo1",
+      "id": "/_emdash/api/media/file/01KZ19RWAQ02DHZ01PSZGYA7JG.pdf"
+    },
+    {
+      "filename": "Eindbalans2016.pdf",
+      "label": "Financieel verslag 2016",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "ff94b5lij",
+      "id": "/_emdash/api/media/file/01KZ19T43SBBD33PF52W73B00Q.pdf"
+    },
+    {
+      "filename": "Inhoudelijkverslag2015.pdf",
+      "label": "Activiteiten 2015",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "rzp5qwr8n",
+      "id": "/_emdash/api/media/file/01KZ19RWT1KT015127CQCB6GBZ.pdf"
+    },
+    {
+      "filename": "Balans2015.pdf",
+      "label": "Financieel verslag 2015",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "0g47uusji",
+      "id": "/_emdash/api/media/file/01KZ19VDFAEQF6153C8T0S3SXF.pdf"
+    },
+    {
+      "filename": "jaarverslag2014.pdf",
+      "label": "Financieel en inhoudelijk jaarverslag 2014",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "dcbxffuo4",
+      "id": "/_emdash/api/media/file/01KZ19RMYJVHV04P2ZFAN82W0V.pdf"
+    },
+    {
+      "filename": "FinancieelJaarverslag2013.pdf",
+      "label": "Financieel jaarverslag 2013",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "v48x675be",
+      "id": "/_emdash/api/media/file/01KZ19VGRAF90PY4811TASBMKF.pdf"
+    },
+    {
+      "filename": "FinancieelJaarverslag2012.pdf",
+      "label": "Financieel jaarverslag 2012",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "y02249czl",
+      "id": "/_emdash/api/media/file/01KZ19RMFBHN1DB7Q0AGAXRAZ9.pdf"
+    },
+    {
+      "filename": "ANBI status.pdf",
+      "label": "Status Culturele ANBI",
+      "showDownloadButton": true,
+      "_type": "file",
+      "_key": "p9itnpykh",
+      "id": "/_emdash/api/media/file/01KZ19T3FGG20R8TMT1S5J4NPV.pdf"
+    },
+    {
+      "_type": "block",
+      "_key": "g4sr0evjh",
+      "style": "normal",
+      "children": [
+        {
+          "_type": "span",
+          "_key": "8c0nqo0yu",
+          "text": ""
+        }
+      ]
+    }
+  ]
+}

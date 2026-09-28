@@ -230,9 +230,27 @@ EMDASH_URL=https://www.skpd.nl EMDASH_TOKEN=... \
 npm run pages:migrate-blocks -- --write
 ```
 
-The content migration keeps `pages.content` unchanged for rollback and refuses
-to write if any legacy file cannot be resolved unambiguously to an existing
-Media Library item.
+The content migration initially keeps `pages.content` unchanged for rollback
+and refuses to write if any legacy file cannot be resolved unambiguously to an
+existing Media Library item.
+
+After the migrated page has been verified in production, retire the legacy
+field with an explicit repository backup:
+
+```sh
+EMDASH_URL=https://www.skpd.nl EMDASH_TOKEN=... \
+npm run pages:retire-legacy-content
+
+EMDASH_URL=https://www.skpd.nl EMDASH_TOKEN=... \
+npm run pages:retire-legacy-content -- \
+  --write --backup backups/pages-over-skpd-content-legacy.json
+```
+
+The write refuses to continue unless both the legacy Portable Text and the new
+block layout are populated. It writes and byte-verifies the backup before
+deleting `pages.content`; EmDash then drops that field's database column. Keep
+the backup in Git so the retired value remains recoverable without appearing
+in the editor.
 
 ## 6. Ongoing deploy and rollback
 

@@ -50,10 +50,10 @@ for (const desired of desiredBlockTypes) {
 }
 
 const content = existingFields.get('content')
-if (!content || content.type !== 'portableText') {
-  throw new Error('Expected pages.content to exist as a portableText field')
+if (content && content.type !== 'portableText') {
+  throw new Error('pages.content exists with an unexpected field type')
 }
-if (content.required) {
+if (content?.required) {
   throw new Error(
     'pages.content is still required. Apply migrations/001_pages_content_optional.sql to D1, then restart/redeploy before retrying.',
   )
@@ -72,7 +72,7 @@ if (!layout) {
 
 console.log(JSON.stringify({
   mode: write ? 'write' : 'dry-run',
-  contentField: { type: content.type, required: content.required },
+  legacyContentField: content ? { type: content.type, required: content.required } : null,
   actions,
   ready: write || actions.length === 0,
 }, null, 2))

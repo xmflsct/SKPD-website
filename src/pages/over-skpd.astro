@@ -1,8 +1,6 @@
 ---
 import { getEmDashEntry, getSeoMeta } from 'emdash'
-import { PortableText } from 'emdash/ui'
 import Layout from '../layouts/Layout.astro'
-import ContentFile from '../layouts/ContentFile.astro'
 import PageBlocks from '../layouts/PageBlocks.astro'
 import type { PageData } from '../lib/cms'
 
@@ -30,12 +28,6 @@ const seo = getSeoMeta(page, {
 >
   <article>
     <h1 class='text-2xl md:text-3xl font-bold mb-6' {...page.edit.title}>{page.data.title}</h1>
-    {page.data.layout?.length ? (
-      <PageBlocks value={page.data.layout} />
-    ) : (
-      <div class='prose prose-lg max-w-none'>
-        <PortableText value={page.data.content ?? []} components={{ type: { file: ContentFile } }} />
-      </div>
-    )}
+    <PageBlocks value={page.data.layout ?? []} />
   </article>
 </Layout>

@@ -130,12 +130,6 @@
           "searchable": true
         },
         {
-          "slug": "content",
-          "label": "Inhoud (legacy)",
-          "type": "portableText",
-          "searchable": true
-        },
-        {
           "slug": "layout",
           "label": "Pagina-inhoud",
           "type": "blocks",

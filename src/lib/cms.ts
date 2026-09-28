@@ -18,7 +18,6 @@ export interface PageData {
   id: string
   slug: string
   title: string
-  content?: PortableTextBlock[] | null
   layout?: PageLayoutBlock[] | null
   seo?: ContentSeo
 }
