@@ -20,24 +20,24 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "13.7.0",
-    "@astrojs/react": "5.0.7",
+    "@astrojs/cloudflare": "14.3.3",
+    "@astrojs/react": "7.0.0",
     "@cloudflare/kumo": "2.6.0",
-    "@emdash-cms/cloudflare": "0.33.0",
-    "@tailwindcss/vite": "^4.1.3",
-    "astro": "^6.4.6",
-    "emdash": "0.33.0",
-    "react": "19.2.8",
-    "react-dom": "19.2.8",
-    "tailwindcss": "^4.1.3"
+    "@emdash-cms/cloudflare": "1.0.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.5",
+    "emdash": "1.0.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
-    "@cloudflare/workers-types": "5.20260730.1",
+    "@cloudflare/workers-types": "5.20260928.1",
     "@tailwindcss/typography": "^0.5.16",
-    "@types/node": "24.10.1",
-    "sharp": "0.35.3",
-    "vite": "7.3.6",
-    "wrangler": "4.116.0"
+    "@types/node": "24.19.0",
+    "sharp": "0.35.5",
+    "vite": "8.3.1",
+    "wrangler": "4.143.0"
   }
 }

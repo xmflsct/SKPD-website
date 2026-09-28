@@ -4,6 +4,9 @@ dist/
 # generated types
 .astro/
 
+# generated EmDash deployment migration manifest
+.emdash/migrations.json
+
 # dependencies
 node_modules/
 

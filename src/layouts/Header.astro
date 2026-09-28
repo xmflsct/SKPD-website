@@ -1,7 +1,8 @@
 ---
-import { getMenu } from 'emdash'
+import { getMenuWithCacheHint } from 'emdash'
 
-const menu = await getMenu('current-events')
+const { data: menu, cacheHint } = await getMenuWithCacheHint('current-events')
+Astro.cache.set(cacheHint)
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/'
 ---
 

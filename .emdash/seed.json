@@ -24,6 +24,11 @@
       "description": "Evenementen en historische tentoonstellingen van SKPD",
       "urlPattern": "/{slug}",
       "supports": ["drafts", "revisions", "preview", "search", "seo"],
+      "titleField": "title",
+      "dateField": "start_date",
+      "admin": {
+        "listColumns": ["end_date"]
+      },
       "fields": [
         {
           "slug": "title",
@@ -64,6 +69,7 @@
       "labelSingular": "Pagina",
       "urlPattern": "/{slug}",
       "supports": ["drafts", "revisions", "preview", "search", "seo"],
+      "titleField": "title",
       "fields": [
         {
           "slug": "title",

@@ -41,15 +41,21 @@ no longer a Wrangler environment selector.
 
 The repository pins npm 11.6.2 in `package.json`; `build:cloudflare` installs
 that version because Workers Builds' automatic installer uses its bundled npm
-version and does not honor `packageManager`. Vite is pinned to 7.3.6 as well;
-Astro 6's Cloudflare build currently breaks when Vite 8 is hoisted.
+version and does not honor `packageManager`. The site uses Astro 7 and Vite 8,
+which are required by the first-party Cloudflare route cache provider.
 
 The GitHub E2E workflow runs after the Workers Build check against the public
 production URL, `https://www.skpd.nl`. No preview URL repository variable is
 required. For local validation, set `WORKERS_PREVIEW_URL` to that same URL.
 
-The first uploaded version must be visited once so EmDash runs its migrations
-and applies `.emdash/seed.json` to the production resources.
+EmDash v1 writes `.emdash/migrations.json` during each build. The generated
+manifest belongs to that build workspace and is ignored by Git. Runtime
+migration mode remains `auto`, so the first request to a newly uploaded version
+applies pending core migrations and `.emdash/seed.json` to the production
+resources. For a controlled migration before traffic is switched, run
+`npx emdash migrate --status`, review the D1 target, run
+`npx emdash migrate`, deploy the same build, and finish with
+`npx emdash migrate --check`.
 
 The Access Allow policy must use the exact approved email addresses, not an
 email domain or “everyone”. The first approved user to open `/_emdash/admin`
@@ -161,12 +167,14 @@ Confirm:
 - An unauthenticated admin request is intercepted by Access and an
   unauthenticated `/_emdash/api/*` write is rejected by EmDash.
 
-Cloudflare's native Worker cache serves public pages at the edge. Request each
+Cloudflare's native Worker cache serves public pages at the edge through
+Astro's `cacheCloudflare()` provider. Request each
 of `/`, `/archief`, and a representative event twice and confirm the second
 response has `CF-Cache-Status: HIT`; administration and API responses must not
 be cached. Publishing content purges the relevant collection tag, while a menu
-edit purges the `menus` tag. Then make 20 warmed requests to each public page
-and compare p75 TTFB with the existing production site.
+edit purges the `emdash:menu:current-events` tag registered by EmDash's menu
+cache hint. Then make 20 warmed requests to each public page and compare p75
+TTFB with the existing production site.
 
 Confirm `/sitemap.xml` lists the static, event, and page sitemaps; together they
 must contain the same 28 public URLs as production. Each page must have one

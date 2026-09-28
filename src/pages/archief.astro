@@ -1,16 +1,20 @@
 ---
-import { getEmDashCollection, getMenu } from 'emdash'
+import { getEmDashCollection, getMenuWithCacheHint } from 'emdash'
 import Layout from '../layouts/Layout.astro'
 import EventPreview from '../layouts/EventPreview.astro'
 import type { EventData } from '../lib/cms'
 
-const [{ entries: allEvents, error }, menu] = await Promise.all([
+const [eventsResult, menuResult] = await Promise.all([
   getEmDashCollection<'events', EventData>('events', {
     status: 'published',
     orderBy: { end_date: 'desc' },
   }),
-  getMenu('current-events'),
+  getMenuWithCacheHint('current-events'),
 ])
+const { entries: allEvents, error, cacheHint: eventsCacheHint } = eventsResult
+const { data: menu, cacheHint: menuCacheHint } = menuResult
+Astro.cache.set(eventsCacheHint)
+Astro.cache.set(menuCacheHint)
 if (error) throw error
 
 const currentUrls = new Set(menu?.items.map(item => item.url.replace(/\/$/, '')) ?? [])

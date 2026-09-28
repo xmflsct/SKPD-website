@@ -4,11 +4,12 @@ import Layout from '../layouts/Layout.astro'
 import Event from '../layouts/Event.astro'
 import { mediaUrl, type EventData } from '../lib/cms'
 
-const { entries, error } = await getEmDashCollection<'events', EventData>('events', {
+const { entries, error, cacheHint } = await getEmDashCollection<'events', EventData>('events', {
   status: 'published',
   orderBy: { end_date: 'desc' },
   limit: 1,
 })
+Astro.cache.set(cacheHint)
 if (error) throw error
 
 const event = entries[0]

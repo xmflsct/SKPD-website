@@ -7,7 +7,8 @@ import { eventDescription, mediaUrl, type EventData } from '../lib/cms'
 const slug = decodeSlug(Astro.params.article)
 if (!slug) return Astro.rewrite('/404')
 
-const { entry: event, error } = await getEmDashEntry<'events', EventData>('events', slug)
+const { entry: event, error, cacheHint } = await getEmDashEntry<'events', EventData>('events', slug)
+Astro.cache.set(cacheHint)
 if (error && error.name !== 'LiveEntryNotFoundError') throw error
 if (!event) return Astro.rewrite('/404')
 
