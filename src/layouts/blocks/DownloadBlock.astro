@@ -1,0 +1,42 @@
+---
+import { sanitizeHref } from 'emdash'
+import type { BlockComponentProps } from 'emdash/ui'
+import type { PageLayoutBlock } from '../../../emdash-env'
+import { fileUrl } from '../../lib/cms'
+
+type DownloadBlockValue = Extract<PageLayoutBlock, { _type: 'download' }>
+type Props = BlockComponentProps<DownloadBlockValue>
+
+const { value } = Astro.props
+const href = sanitizeHref(fileUrl(value.file))
+const size = value.file.size
+  ? new Intl.NumberFormat('nl-NL', { style: 'unit', unit: 'kilobyte', maximumFractionDigits: 0 })
+      .format(value.file.size / 1024)
+  : undefined
+---
+
+<section class='not-prose my-5 rounded-lg bg-gray-100 p-4' aria-labelledby={`download-${value._key}`}>
+  <div class='flex items-start gap-3'>
+    <span class='text-2xl' aria-hidden='true'>📄</span>
+    <div class='min-w-0'>
+      <h2 id={`download-${value._key}`} class='font-semibold'>{value.title}</h2>
+      {value.description && <p class='mt-1 text-gray-700'>{value.description}</p>}
+      {(value.file.filename || size) && (
+        <p class='mt-1 text-sm text-gray-600'>
+          {[value.file.filename, size].filter(Boolean).join(' · ')}
+        </p>
+      )}
+      {href && href !== '#' ? (
+        <a
+          href={href}
+          download={value.file.filename || true}
+          class='mt-3 inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 hover:bg-gray-200 transition-colors'
+        >
+          Download {value.file.filename || value.title}
+        </a>
+      ) : (
+        <p role='alert' class='mt-3 text-sm text-red-700'>Dit bestand is momenteel niet beschikbaar.</p>
+      )}
+    </div>
+  </div>
+</section>

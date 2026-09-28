@@ -1,0 +1,14 @@
+---
+import { PortableText, type BlockComponentProps } from 'emdash/ui'
+import type { PageLayoutBlock } from '../../../emdash-env'
+import ContentFile from '../ContentFile.astro'
+
+type RichTextBlockValue = Extract<PageLayoutBlock, { _type: 'rich_text' }>
+type Props = BlockComponentProps<RichTextBlockValue>
+
+const { value } = Astro.props
+---
+
+<div class='prose prose-lg max-w-none'>
+  <PortableText value={value.content} components={{ type: { file: ContentFile } }} />
+</div>

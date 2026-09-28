@@ -1,5 +1,6 @@
 import { extractPlainText } from 'emdash'
 import type { ContentSeo, MediaValue, PortableTextBlock } from 'emdash'
+import type { PageLayoutBlock } from '../../emdash-env'
 import { canonicalSiteUrl } from './responsiveImages.mjs'
 
 export interface EventData {
@@ -17,8 +18,20 @@ export interface PageData {
   id: string
   slug: string
   title: string
-  content: PortableTextBlock[]
+  content?: PortableTextBlock[] | null
+  layout?: PageLayoutBlock[] | null
   seo?: ContentSeo
+}
+
+export interface DownloadableFile {
+  id: string
+  url?: string
+  src?: string
+  filename?: string
+  mimeType?: string
+  size?: number
+  provider?: string
+  meta?: Record<string, unknown>
 }
 
 export function eventDescription(content: PortableTextBlock[]): string {
@@ -32,4 +45,17 @@ export function mediaUrl(media: MediaValue | null | undefined, origin: string): 
     ? `/_emdash/api/media/file/${storageKey}`
     : media?.src
   return path ? canonicalSiteUrl(path, origin) : undefined
+}
+
+export function fileUrl(file: DownloadableFile | null | undefined): string | undefined {
+  if (!file) return undefined
+  if (file.url) return file.url
+  if (file.src) return file.src
+
+  const storageKey = file.meta?.storageKey
+  if (typeof storageKey === 'string' && storageKey) {
+    return `/_emdash/api/media/file/${storageKey}`
+  }
+
+  return undefined
 }

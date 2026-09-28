@@ -1,0 +1,19 @@
+---
+import { Blocks, defineBlockComponents } from 'emdash/ui'
+import type { PageLayoutBlock } from '../../emdash-env'
+import DownloadBlock from './blocks/DownloadBlock.astro'
+import RichTextBlock from './blocks/RichTextBlock.astro'
+
+interface Props {
+  value: PageLayoutBlock[]
+}
+
+const { value } = Astro.props
+
+const components = defineBlockComponents<PageLayoutBlock>({
+  rich_text: RichTextBlock,
+  download: DownloadBlock,
+})
+---
+
+<Blocks value={value} components={components} />

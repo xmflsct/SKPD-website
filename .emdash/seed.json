@@ -16,6 +16,57 @@
       "titleSeparator": " | "
     }
   },
+  "blockTypes": [
+    {
+      "slug": "rich_text",
+      "label": "Tekst",
+      "category": "Inhoud",
+      "currentVersion": 1,
+      "versions": [
+        {
+          "version": 1,
+          "fields": [
+            {
+              "slug": "content",
+              "label": "Inhoud",
+              "type": "portableText",
+              "required": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "download",
+      "label": "Download",
+      "category": "Inhoud",
+      "currentVersion": 1,
+      "versions": [
+        {
+          "version": 1,
+          "fields": [
+            {
+              "slug": "title",
+              "label": "Titel",
+              "type": "string",
+              "required": true
+            },
+            {
+              "slug": "description",
+              "label": "Omschrijving",
+              "type": "text"
+            },
+            {
+              "slug": "file",
+              "label": "Bestand",
+              "type": "file",
+              "required": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "collections": [
     {
       "slug": "events",
@@ -80,10 +131,18 @@
         },
         {
           "slug": "content",
-          "label": "Inhoud",
+          "label": "Inhoud (legacy)",
           "type": "portableText",
-          "required": true,
           "searchable": true
+        },
+        {
+          "slug": "layout",
+          "label": "Pagina-inhoud",
+          "type": "blocks",
+          "validation": {
+            "allowedTypes": ["rich_text", "download"],
+            "maxItems": 100
+          }
         }
       ]
     }

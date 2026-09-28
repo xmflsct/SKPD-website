@@ -184,7 +184,57 @@ return 404 with `noindex`, and JSON-LD and canonicals must use
 remain reachable; the sitemap and canonical URLs use the no-trailing-slash
 form consistently. Preview-host pages must also emit `noindex, nofollow`.
 
-## 5. Ongoing deploy and rollback
+## 5. Apply the page-blocks schema and migrate Over SKPD
+
+The page-blocks rollout has one project-specific schema change that EmDash
+intentionally does not infer from a seed: `pages.content` changes from required
+to optional. Back up the production D1 database, inspect the migration, and
+record a D1 Time Travel bookmark, inspect the migration, and apply it explicitly.
+EmDash uses FTS5 virtual tables, so `wrangler d1 export` cannot export this
+database:
+
+```sh
+npx wrangler d1 time-travel info skpd-website --json
+cat migrations/001_pages_content_optional.sql
+npx wrangler d1 execute skpd-website --remote \
+  --file migrations/001_pages_content_optional.sql
+```
+
+The SQL is narrowly guarded to `pages.content` when it is still a required
+Portable Text/JSON field. It only changes EmDash schema metadata; existing page
+content is not updated or deleted. It is safe to rerun because the second run
+matches no required field.
+
+Restart or deploy the Worker after the direct schema metadata change so no
+isolate retains an older schema cache. Then use an Administrator API token to
+inspect and create the two block types and `pages.layout` through EmDash's
+schema API:
+
+```sh
+EMDASH_URL=https://www.skpd.nl EMDASH_TOKEN=... \
+npm run pages:apply-blocks-schema
+
+EMDASH_URL=https://www.skpd.nl EMDASH_TOKEN=... \
+npm run pages:apply-blocks-schema -- --write
+```
+
+The schema script refuses to overwrite block types or a layout field with a
+different definition. Once the renderer-supporting Worker is deployed, inspect
+and then populate only `pages/over-skpd.layout`:
+
+```sh
+EMDASH_URL=https://www.skpd.nl EMDASH_TOKEN=... \
+npm run pages:migrate-blocks
+
+EMDASH_URL=https://www.skpd.nl EMDASH_TOKEN=... \
+npm run pages:migrate-blocks -- --write
+```
+
+The content migration keeps `pages.content` unchanged for rollback and refuses
+to write if any legacy file cannot be resolved unambiguously to an existing
+Media Library item.
+
+## 6. Ongoing deploy and rollback
 
 For each `main` change:
 

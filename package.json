@@ -16,6 +16,8 @@
     "test": "node --test",
     "e2e": "node scripts/e2e.mjs",
     "contentful:import": "node --env-file-if-exists=.env scripts/import-contentful.mjs",
+    "pages:apply-blocks-schema": "node --env-file-if-exists=.env scripts/apply-page-blocks-schema.mjs",
+    "pages:migrate-blocks": "node --env-file-if-exists=.env scripts/migrate-page-blocks.mjs",
     "emdash:init": "emdash init",
     "astro": "astro"
   },

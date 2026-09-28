@@ -22,12 +22,35 @@ export interface Event {
   terms?: Record<string, TaxonomyTerm[]>;
 }
 
+export interface PageLayoutRichTextV1Block {
+  _type: "rich_text";
+  _version: 1;
+  _key: string;
+  "content": PortableTextBlock[];
+}
+
+export type PageLayoutRichTextBlock = PageLayoutRichTextV1Block;
+
+export interface PageLayoutDownloadV1Block {
+  _type: "download";
+  _version: 1;
+  _key: string;
+  "title": string;
+  "description"?: string | null;
+  "file": { id: string; url?: string; src?: string; filename?: string; mimeType?: string; size?: number; provider?: string; meta?: Record<string, unknown> };
+}
+
+export type PageLayoutDownloadBlock = PageLayoutDownloadV1Block;
+
+export type PageLayoutBlock = PageLayoutRichTextBlock | PageLayoutDownloadBlock;
+
 export interface Page {
   id: string;
   slug: string | null;
   status: string;
   title: string;
-  content: PortableTextBlock[];
+  content?: PortableTextBlock[];
+  layout?: PageLayoutBlock[];
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
