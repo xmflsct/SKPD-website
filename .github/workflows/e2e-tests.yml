@@ -9,6 +9,7 @@ on:
       - "emdash-env.d.ts"
       - "package.json"
       - "package-lock.json"
+      - "patches/**"
       - "public/**"
       - "scripts/**"
       - "src/**"

@@ -49,6 +49,7 @@ export interface Page {
   slug: string | null;
   status: string;
   title: string;
+  content?: PortableTextBlock[];
   layout?: PageLayoutBlock[];
   createdAt: Date;
   updatedAt: Date;

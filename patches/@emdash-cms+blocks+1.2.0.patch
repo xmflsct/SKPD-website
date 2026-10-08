@@ -1,0 +1,29 @@
+diff --git a/node_modules/@emdash-cms/blocks/dist/validation-zqDdO70P.js b/node_modules/@emdash-cms/blocks/dist/validation-zqDdO70P.js
+index c9770bf..81df873 100644
+--- a/node_modules/@emdash-cms/blocks/dist/validation-zqDdO70P.js
++++ b/node_modules/@emdash-cms/blocks/dist/validation-zqDdO70P.js
+@@ -450,11 +450,11 @@ const EDITOR_DRAFT_LIMITS = {
+ 	maxPatchBytes: 192 * 1024
+ };
+ /**
+-* RFC 6838-style image MIME type or image-prefix.
+-* Accepts 'image/', 'image/png', 'image/svg+xml'. Rejects 'image/*'
+-* (wildcards) and non-image types like 'video/' or 'application/pdf'.
++ * RFC 6838-style MIME type or top-level type prefix.
++ * Accepts MIME prefixes and exact MIME types such as 'image/', 'image/png',
++ * and 'application/pdf'. Rejects wildcard forms such as 'image/*'.
+ */
+-const MEDIA_PICKER_MIME_FILTER_RE = /^image\/(?:[A-Za-z0-9][A-Za-z0-9!#$&^_.+-]{0,126})?$/;
++const MEDIA_PICKER_MIME_FILTER_RE = /^[A-Za-z0-9][A-Za-z0-9!#$&^_.+-]{0,126}\/(?:[A-Za-z0-9][A-Za-z0-9!#$&^_.+-]{0,126})?$/;
+ /**
+ * Validate option uniqueness and that initial_value references a valid option.
+ * Used by select, radio, combobox, and checkbox element validation.
+@@ -1158,7 +1158,7 @@ function validateElement(value, path, errors, policy) {
+ 				});
+ 				else if (!MEDIA_PICKER_MIME_FILTER_RE.test(value.mime_type_filter)) errors.push({
+ 					path: `${path}.mime_type_filter`,
+-					message: "Field 'mime_type_filter' must be an image MIME type or prefix, e.g. 'image/' or 'image/png' (wildcards and non-image types are not supported)"
++					message: "Field 'mime_type_filter' must be a MIME type or prefix, e.g. 'application/' or 'application/pdf' (wildcards are not supported)"
+ 				});
+ 			}
+ 			if (value.initial_value !== void 0 && typeof value.initial_value !== "string") errors.push({

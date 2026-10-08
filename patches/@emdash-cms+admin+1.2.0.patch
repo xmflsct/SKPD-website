@@ -1,0 +1,75 @@
+diff --git a/node_modules/@emdash-cms/admin/dist/index.js b/node_modules/@emdash-cms/admin/dist/index.js
+index b453c18..2d1b7fc 100644
+--- a/node_modules/@emdash-cms/admin/dist/index.js
++++ b/node_modules/@emdash-cms/admin/dist/index.js
+@@ -10404,11 +10404,13 @@ function BlockKitMediaPickerField({ actionId, label, placeholder, mimeTypeFilter
+ 	const [pickerOpen, setPickerOpen] = React$1.useState(false);
+ 	const [imageBroken, setImageBroken] = React$1.useState(false);
+ 	const url = typeof value === "string" && value.length > 0 ? value : "";
++	const filter = mimeTypeFilter ?? "image/";
++	const isDocument = !filter.startsWith("image/");
++	const isPdf = /\.pdf(?:[?#]|$)/i.test(url);
++	const canPreview = !isDocument && isSafePreviewUrl(url);
+ 	React$1.useEffect(() => {
+ 		setImageBroken(false);
+ 	}, [url]);
+-	const filter = mimeTypeFilter ?? "image/";
+-	const canPreview = isSafePreviewUrl(url);
+ 	const handleSelect = (item) => {
+ 		const isLocalMedia = item.provider === "local" || !!item.storageKey;
+ 		const localKey = item.storageKey || item.id;
+@@ -10421,7 +10423,45 @@ function BlockKitMediaPickerField({ actionId, label, placeholder, mimeTypeFilter
+ 			className: "mb-1.5 block text-base font-medium text-kumo-default",
+ 			children: label
+ 		}),
+-		canPreview ? imageBroken ? /* @__PURE__ */ jsxs("div", {
++		url && isDocument ? /* @__PURE__ */ jsxs("div", {
++			className: "relative group",
++			children: [/* @__PURE__ */ jsxs("div", {
++				className: "flex min-h-24 w-full flex-col items-center justify-center gap-2 rounded-md border border-kumo-line bg-kumo-tint text-kumo-subtle",
++				children: [/* @__PURE__ */ jsx(Paperclip, { className: "h-6 w-6" }), /* @__PURE__ */ jsx("span", {
++					className: "text-sm leading-5",
++					children: isPdf ? _t({
++						id: "skpd-pdf-preview-unavailable",
++						message: "PDF file: preview not available"
++					}) : _t({
++						id: "skpd-file-preview-unavailable",
++						message: "File: preview not available"
++					})
++				})]
++			}), /* @__PURE__ */ jsxs("div", {
++				className: "absolute top-2 end-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto group-focus-within:opacity-100 group-focus-within:pointer-events-auto transition-opacity flex gap-1",
++				children: [/* @__PURE__ */ jsx(Button, {
++					type: "button",
++					size: "sm",
++					variant: "secondary",
++					onClick: () => setPickerOpen(true),
++					children: _t({
++						id: "o+XJ9D",
++						message: "Change"
++					})
++				}), /* @__PURE__ */ jsx(Button, {
++					type: "button",
++					shape: "square",
++					variant: "destructive",
++					className: "h-8 w-8",
++					onClick: () => onChange(actionId, ""),
++					"aria-label": _t({
++						id: "t/YqKh",
++						message: "Remove"
++					}),
++					children: /* @__PURE__ */ jsx(X, { className: "h-4 w-4" })
++				})]
++			})]
++		}) : canPreview ? imageBroken ? /* @__PURE__ */ jsxs("div", {
+ 			className: "relative group min-h-20",
+ 			children: [/* @__PURE__ */ jsxs("div", {
+ 				className: "flex min-h-20 w-full items-center justify-center gap-2 rounded-md border border-kumo-line bg-kumo-tint text-kumo-subtle",
+@@ -10510,6 +10550,7 @@ function BlockKitMediaPickerField({ actionId, label, placeholder, mimeTypeFilter
+ 			onOpenChange: setPickerOpen,
+ 			onSelect: handleSelect,
+ 			mimeTypeFilter: filter,
++			mediaKind: isDocument ? "file" : "image",
+ 			title: _t({
+ 				id: "pov/PW",
+ 				message: "Select {label}",

@@ -7,9 +7,11 @@ import { defineConfig } from 'astro/config'
 import tailwindcss from '@tailwindcss/vite'
 import emdash from 'emdash/astro'
 import { env } from 'node:process'
+import portableTextFile from './src/plugins/portable-text-file/index.ts'
 
 const accessTeamDomain = env.CF_ACCESS_TEAM_DOMAIN
-if (env.SKPD_CLOUDFLARE_DEPLOYMENT && !accessTeamDomain) {
+const isCloudflareDeployment = Boolean(env.SKPD_CLOUDFLARE_DEPLOYMENT)
+if (isCloudflareDeployment && !accessTeamDomain) {
   throw new Error('CF_ACCESS_TEAM_DOMAIN must be set when building a Cloudflare deployment')
 }
 const auth = accessTeamDomain
@@ -67,7 +69,10 @@ export default defineConfig({
       database: d1({ binding: 'DB', session: 'auto' }),
       storage: r2({ binding: 'MEDIA' }),
       auth,
-      siteUrl: 'https://www.skpd.nl',
+      // In development EmDash must derive the origin from localhost; otherwise
+      // its login redirects leave the local editor and land on production.
+      siteUrl: isCloudflareDeployment ? 'https://www.skpd.nl' : undefined,
+      plugins: [portableTextFile()],
     }),
   ],
   devToolbar: {

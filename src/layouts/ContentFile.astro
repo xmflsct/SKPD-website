@@ -14,13 +14,15 @@ const { node } = Astro.props
 const url = sanitizeHref(node.url || node.id)
 ---
 
-<p>
-  <a
-    href={url}
-    target='_blank'
-    rel='noopener noreferrer'
-    class='inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors'
-  >
-    {node.label || node.filename || 'Download'} <span>📄</span>
-  </a>
-</p>
+{
+  url && (
+    <a
+      href={url}
+      target='_blank'
+      rel='noopener noreferrer'
+      class='underline decoration-1 underline-offset-2 hover:no-underline'
+    >
+      {node.label || node.filename || 'Download bestand'}
+    </a>
+  )
+}
